@@ -58,7 +58,7 @@ Energy-Based Functions : 연속적인 데이터는 low energy, 불연속적인 �
         
         동일한 encoder를 사용하고 positive sample(원본에서 augumentation)의 energy는 크게, negative sample의 energy는 크게 만듦
         단점은 데이터 많아야하며, 어떤 sample을 negative으로 할지도 골라야함(hard-negative mining을 사용)
-        그래도 잘 작동함(특징 추출 괜찮음)
+        그래도 잘 작동함(특징 추출 괜찮음) 
         
         maximum likelihood의 일종
         
