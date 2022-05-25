@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Self-Supervised Learning"
-subtitle: "[Tips]"
+title: "Self-Supervised Learning 개요"
+#subtitle: "[Tips]"
 date: 2022-05-25 14:22
-background: 
-tag: [Tips, Github io, Notion]
+#background: 
+tag: [Self-Supervised Learning, SSL]
 ---
 
 # Self-Supervised Learning 개요
