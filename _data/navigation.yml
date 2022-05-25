@@ -1,7 +1,13 @@
 # main links
 main:
-  - title: "Quick-Start Guide"
-    url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
+  - title: "논문 리뷰"
+    url: #https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
+  - title: "코딩 테스트"
+    children:
+      - title: "삼성 아카데미"
+        url:
+  - title: "메모"
+    url:
   # - title: "About"
   #   url: https://mmistakes.github.io/minimal-mistakes/about/
   # - title: "Sample Posts"
