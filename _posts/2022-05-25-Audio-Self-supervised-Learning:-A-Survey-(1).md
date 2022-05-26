@@ -151,7 +151,7 @@ use_math: true
             - 2개의 view를 바꿔서 다시 학습하여 $\tilde L$ 구하고, 최종 loss는 $L + \tilde L$
             - target network의 느린 업데이트는 online network의 parameter들을 점진적으로 종합하는 효과 >> mode collapse도 방지
             - LARS라는 optimizer도 추가적으로 이용
-                - 다른 layer에 있는파라미터들을다른 strength로 업데이트  
+                - 다른 layer에 있는파라미터들을 다른 strength로 업데이트  
     <br/>
     - #### **SimSiam**
         - BYOL과 유사하지만, 차이점은…
@@ -229,7 +229,7 @@ use_math: true
 <br/>
 
 ## 2. **Contrastive Models**
-    
+<br/>
 <p align="center">
 <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot from 2022-05-26 17-13-04.png" width="30%">
 </p>
@@ -247,7 +247,7 @@ use_math: true
             $$ 
             
             $$
-            L(x,x^-)=\sum_{x\in \mathfrak{X}} max(0,\ \Vert f(x)-f(x^-)\Vert_2)^2
+            L(x,x^-)=\sum_{x\in \mathfrak{X}} max(0,\ \epsilon -\Vert f(x)-f(x^-)\Vert_2)^2
             $$ 
             
     - Triplet loss
@@ -269,7 +269,7 @@ use_math: true
             
     - NT-Xnet
         - normalized temperature-scaled cross-entropy loss
-        - $\epsilon$: temperature parameter for controlling the penalty on the effect of negative samples
+        - $\tau$: temperature parameter for controlling the penalty on the effect of negative samples
             
             $$
             L(x,x^+,x^-_{n\in [1,N-1]};f) = -log\frac{exp(f^Tf^+/\tau)}{\sum_{i=1}^{N-1}{exp(f^Tf_i/\tau)}}
@@ -356,7 +356,7 @@ use_math: true
         <br/>
             
 
-## 3. **Contrastive Predict Coding (CPC)**
+## 3. **Contrastive Predictive Coding (CPC)**
 - auto-regressive predictive model 이용
 - 과거 frame들을 종합한 global context를 사용하여 미래 값을 예측하여 optimize
 - InfoNCE loss의 query data point를 context vector $c_t$로 대체
