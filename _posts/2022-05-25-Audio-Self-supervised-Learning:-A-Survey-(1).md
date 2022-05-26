@@ -230,6 +230,9 @@ use_math: true
 
 ## 2. **Contrastive Models**
     
+<p align="center">
+<img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot from 2022-05-26 17-13-04.png" width="30%">
+</p>
 - negative sample은 밀고, positive sample은 당기는 방법 >> contrastive loss을 디자인하는 것이 중요함
 
 - ### **Contrastive Loss**
