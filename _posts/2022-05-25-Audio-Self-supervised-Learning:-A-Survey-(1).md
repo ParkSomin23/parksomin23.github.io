@@ -240,27 +240,27 @@ use_math: true
         - 다수의 negative samples과 joint comparisons, N=2면 triplet loss
         - softmax와 비슷한 수식(survey말고 원래 논문 수식 참고)
             
-            $
+            $$
             L(x,x^+,x^-_{n\in [1,N-1]};f) = log(1+\sum_{n=1}^{N-1}{exp(f^Tf_i-f^Tf^+)}
             =-log\frac{exp(f^Tf^+)}{exp(f^Tf^+)+\sum_{i=1}^{N-1}{exp(f^Tf_i)}}
-            $
+            $$
             
     - NT-Xnet
         - normalized temperature-scaled cross-entropy loss
         - $\epsilon$: temperature parameter for controlling the penalty on the effect of negative samples
             
-            $
+            $$
             L(x,x^+,x^-_{n\in [1,N-1]};f) = -log\frac{exp(f^Tf^+/\tau)}{\sum_{i=1}^{N-1}{exp(f^Tf_i/\tau)}}
-            $
+            $$
             
     - InfoNCE
         - Noise Contrastive Estimation(NCE)에서 영감받음
         - positive pair와 N-1개의 negative pairs와의 거리 비교
             
-            $
+            $$
             L(x,x^+,x^-_{n\in [1,N-1]};f) 
             =\mathbb{E}[-log\frac{exp(f^Tf^+)}{exp(f^Tf^+)+\sum_{i=1}^{N-1}{exp(f^Tf_i)}}]
-            $
+            $$
             
         - 분모는 1개의 positive + N-1개의 negative으로 구성 >> softmax classifier로 N class cross-entropy 사용하여 optimize
         - classifier은 positive에 큰 값을, negative에는 작은 값을 줌  
