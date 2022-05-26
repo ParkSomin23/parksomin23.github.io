@@ -5,10 +5,12 @@ title: "Audio Self-supervised Learning: A Survey (1) A General Overview"
 date: 2022-05-25 20:08
 #background: 
 tag: [Self-Supervised Learning, SSL]
-classes: wide
+#classes: wide
 published: true
 
 toc: true
+toc_float: true
+
 use_math: true
 
 ---
@@ -40,7 +42,10 @@ use_math: true
 - optimizes the similarity or correlations between representations of two views of **same objects**
 
 - ### **1) Auto-Encoding**
+    <p align="center">
     <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/1C03F6D6-CFC0-41A7-AAA0-A5025D0BCE0F.jpeg" width="30%" height="30%">
+    </p>
+    
     
     | Examples | 요약 |
     | :---: | :---: |
@@ -55,15 +60,22 @@ use_math: true
         
     - 전체 원본은 예측하는 것이 아닌 일부분을 예측하는 모델도 많음
         - 대표적인 예가 바로 Word2Vec  
-        <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_10-31-46.png" width="50%" height="50%">  
+        <p align="center">
+        <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_10-31-46.png" width="60%" height="30%">
+        </p>
+          
         - CBoW는 단어 사이의 구문적인(문법적인, syntactic) 관계 파악에 유리
         - 자주 사용하는 단어에 대해서 overfitting하기 쉬움
         - Skip-gram은 의미적인(semantic) 관계를 더 잘 파악하고 overfitting도 덜 함
         - Audio2Vec과 Speech2Vec는 audio segments(>> Mel Spectrogram으로 변환 후)를 fixed-length vector로 표현  
     <br/>  
 
-    - #### **Auto-Regressive Coding(APC) & Masked Predictive Coding(MPC) & Non-autoregressive Predictive Coding(NPC)**
-        - <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_10-53-55.png" width="50%" height="50%">
+    - #### **Auto-Regressive Coding(APC) & Masked Predictive Coding(MPC) & Non-autoregressive Predictive Coding(NPC)**  
+        <br/>
+        <p align="center">
+        <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_10-53-55.png" width="63%">
+        </p>
+
         - APC
             - 과거의 맥락/문맥(context)를 가지고 미래를 예측(future information conditioning)하는 모델
             - 추가적인 context network로 현재 time step의 표현(representation)들을 종합 >> 주로 RNN 사용
@@ -81,16 +93,19 @@ use_math: true
             - Jigsaw 퍼즐
             - 순서가 섞인 sequential한 input 재정렬  
             <br/>
----  
 <br/>
 
-- ### **2) Siamese Models**
-- | Examples | 요약 |
-  | :---: | :---: |
-  | BYOL, Barlow Twins, SimSiam | 같은 sample의 다른 view의 similarity 비교, 같거나 유사한 encoder 구조 사용<br/>(우리 아는 "샴" 쌍둥이…)|
+- ### **2) Siamese Models**  
+    <br/>
 
-    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_11-42-40.png" width="30%">
-    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_11-46-41.png" width="35.5%">
+    <p align="center">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_11-42-40.png" width="24%">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_11-46-41.png" width="42.6%">
+    </p>
+
+    | Examples | 요약 |
+    | :---: | :---: |
+    | BYOL, Barlow Twins, SimSiam | 같은 sample의 다른 view의 similarity 비교, 같거나 유사한 encoder 구조 사용<br/>(우리 아는 "샴" 쌍둥이…)|
 
     **설명**
 
@@ -119,15 +134,18 @@ use_math: true
             - target network는 random하게 initalize되고 exponential moving average(EMA) 방식으로 update (MoCo와 유사)
                 - $\theta: online \quad \xi:target \qquad \tau:\tau \in [0,1] \: decay \ rate \ for \ updating$
                     
-                    $
+                    $$
                     \xi\leftarrow\tau\xi+(1-\tau)\theta
-                    $
+                    $$
+
             - MSE로 optimize
-                - $\bar{q_\theta} \ \& \ \bar{p_\xi}: \ l2 \ normalized$                    
-                    $
-                    L=\Vert \bar{q_{\theta}} - \bar{p_{\xi}} \Vert^2_2 \\ 
+                - $\bar{q_\theta}$ & $\bar{p_\xi}$: l2 normalized                   
+                    
+                    $$
+                    L=\Vert \bar{q_{\theta}} - \bar{p_{\xi}} \Vert^2_2  \\
                     =2-2\frac{\langle q_\theta,p_\xi \rangle}{\Vert q_\theta \Vert_2 \cdot \Vert z_\xi \Vert_2 }
-                    $                    
+                    $$
+
             - 2개의 view를 바꿔서 다시 학습하여 $\tilde L$ 구하고, 최종 loss는 $L + \tilde L$
             - target network의 느린 업데이트는 online network의 parameter들을 점진적으로 종합하는 효과 >> mode collapse도 방지
             - LARS라는 optimizer도 추가적으로 이용
@@ -160,17 +178,14 @@ use_math: true
              <br/>
         - cross-correlation matrix가 identity matrix가 되도록 학습        
         - high-dimesional output vector에 대해 benefit 있음
-        - loss function
+        - loss function : invariance  term + redundancy reduction term
             
-            $
+            $$
             L=\sum_i(1-C_{ii})^2+\lambda
-            \sum_i\sum_{j\neq i}C_{ij}^2 \\
-            :invariance\ term \: + \: redundancy\ reduction \ term
-            $
+            \sum_i\sum_{j\neq i}C_{ij}^2  \\
             
-            $
             C_{ij}=\frac{\sum_b p_{b,i}^A, p_{b,j}^B}{\sqrt{\sum_b{p_{b,i}^A}} {\sqrt{\sum_b{p_{b,j}^B}}}}
-            $
+            $$
             
             - 두 네트워크의 output으로 cross-correlation matrix을 batch 방향으로 계산
             - invariance term
@@ -178,15 +193,18 @@ use_math: true
             - redundancy reduction term
                 - compress the correlations between the off-diagonal elements >> representations of sufficient disentanglement  
     <br/>
-    ---
     <br/>
 
 - ### **3) Clustering**
-- | Examples | 요약 |
-  | :---: | :---: |
-  |DeepCluster, K-means, Local Aggregation, SwAV|pseudo-label 만들기|
-
-    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_18-32-50.png" width="30%">
+    
+    <p align="center">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_18-32-50.png" width="25%">
+    </p>
+    
+    | Examples | 요약 |
+    | :---: | :---: |
+    |DeepCluster, K-means, Local Aggregation, SwAV|pseudo-label 만들기|
+    
 
     **설명**
     - 서로 다른 물체들은 자연적으로 구별되는 카테고리에 연관되어 있으며, 각 카테고리는 분리된 manifold를 차지할 것으로 생각
@@ -206,7 +224,6 @@ use_math: true
         [swav/README.md at main · facebookresearch/swav](https://github.com/facebookresearch/swav/blob/main/README.md)
 
 <br/>
----
 <br/>
 
 ## 2. **Contrastive Models**
@@ -241,7 +258,7 @@ use_math: true
         - softmax와 비슷한 수식(survey말고 원래 논문 수식 참고)
             
             $$
-            L(x,x^+,x^-_{n\in [1,N-1]};f) = log(1+\sum_{n=1}^{N-1}{exp(f^Tf_i-f^Tf^+)}
+            L(x,x^+,x^-_{n\in [1,N-1]};f) = log(1+\sum_{n=1}^{N-1}{exp(f^Tf_i-f^Tf^+)}  \\
             =-log\frac{exp(f^Tf^+)}{exp(f^Tf^+)+\sum_{i=1}^{N-1}{exp(f^Tf_i)}}
             $$
             
@@ -291,12 +308,13 @@ use_math: true
                     - memory bank는 모든 sample의 representation을 memory bank에 넣어두고, 임의 몇 개로 dictionary 구성
                     - encoder에서 나오는 값들로 memory bank update >> dictionary inconsistent      
         <br/>
-    
+
         | 이름 | 설명 |
         | :---: | :---: |
         | MoCo v2 | SimCLR의 data augmentation 적용 (+Gaussian Deblur, larger batch size)<br/>encoder와 momentum encoder의 projection head 2-layers MLP로 수정 |
         | SimCLR v2 | ResNet-50 >> ResNet-152 + projection layer depth 개선<br/>projection layer 한 개를 semi-supervised task의 fine-tuning용을 만듦 >> 적은 label된 data로 학습<br/>MoCo v2의 memory mechanism을 사용하여 negative sample 수 늘림 |
         | MoCo v3 | memory queue 삭제 >> batch size 더 크게 키움<br/>BYOL에서 제안된 projection layer 다음에 prediction layer 적용 |  
+
         
     <br/>
 
@@ -305,12 +323,14 @@ use_math: true
     - 그러기에 linear projection을 헤도 down-stream prediction task를 해도 성능 보장이 됨 [관련 논문](http://proceedings.mlr.press/v132/tosh21a/tosh21a.pdf)            
     - positive와 negative sample들의 거리를 비교하는 과정에서 representation collapse가 방지됨
     - NT-Xnet + InfoNCE
-        $
+
+        $$
         L(x,x^+,x^-_{n\in [1,N-1]};f) 
-        =\mathbb{E}[-log\frac{exp(f^Tf^+/\tau)}{exp(f^Tf^+/\tau)+\sum_{i=1}^{N-1}{exp(f^Tf_i/\tau)}}]\\
-        =\mathbb{E}[-f^Tf^+/\tau] \ (alignment) \:
-        + \: \mathbb{E}[log(exp(f^Tf^+/\tau)+\sum_{i=1}^{N-1}{exp(f^Tf_i/\tau)}]\ (uniformity)
-        $
+        =\mathbb{E}[-log\frac{exp(f^Tf^+/\tau)}{exp(f^Tf^+/\tau)+\sum_{i=1}^{N-1}{exp(f^Tf_i/\tau)}}]  \\
+        =\mathbb{E}[-f^Tf^+/\tau] \ (alignment)  
+        + \mathbb{E}[log(exp(f^Tf^+/\tau)+\sum_{i=1}^{N-1}{exp(f^Tf_i/\tau)}]\ (uniformity)
+        $$
+
         - alignment: positive pair 간의 similarity maximizing이 목표
         - uniformity: embeding된 vector를 단위구(unit sphere)의 형태로 normalize하기에 maximal-uniformly하게 분포가 가능 >> separable한 feature 추출 가능
         - $\tau$ (temperature coefficient)
@@ -321,10 +341,10 @@ use_math: true
     <br/>
     - Wang suggestion  [Wang_Understanding_the_Behaviour_of_Contrastive_Loss](https://openaccess.thecvf.com/content/CVPR2021/papers/Wang_Understanding_the_Behaviour_of_Contrastive_Loss_CVPR_2021_paper.pdf)
         
-        $
-        L_{align}=\mathbb{E}[\Vert f - f^+\Vert^\alpha_2\\
+        $$
+        L_{align}=\mathbb{E}[\Vert f - f^+\Vert^\alpha_2  \\
         L_{uniform}=log\ \mathbb{E}[exp(-t\Vert f-f^-\Vert^2_2)]
-        $
+        $$
         
         - 두 loss 동시에 minimize되도록 제안
         - 기존 contrastive loss보다 효과적  
@@ -337,9 +357,9 @@ use_math: true
 - InfoNCE loss의 query data point를 context vector $c_t$로 대체
     - $z_n^-$: $z_{t+\tau}$ 분포에서 sample된 negative data point, sequence $z$에서 random sampling
 
-    $
+    $$
     L(c_t, z_{t+\tau},z^-_{n\in [1,N-1]}) = \mathbb{E}[-log\frac{exp(c^T_tz_{t+\tau})}{exp(c_t^Tz_{t+\tau})+\sum_{n=1}^{N-1}{exp(c_t^Tz_n^-)}}
-    $
+    $$
 
     
     
@@ -350,9 +370,9 @@ use_math: true
 <br/>
 - Predictive Masked Predictive Models(MPC)
     
-    $
+    $$
     L(c_t, z_{t},z^-_{n\in [1,N-1]}) = \mathbb{E}[-log\frac{exp(c^T_tz_{t})}{exp(c_t^Tz_{t})+\sum_{n=1}^{N-1}{exp(c_t^Tz_n^-)}}
-    $
+    $$
     
     - 이 loss 조금 수정되서 wav2vec 2.0에서 사용됨
     - negative sampling은 CPC와 동일
@@ -363,8 +383,9 @@ use_math: true
 # C) Training with or without negative samples
 - 둘 다 model의 크기를 키우거나 representation 크기를 키우는 것에서 성능 향상 가능
 - Contrastive learning에는 negative sample의 양과 질도 중요
-
+    
     | contrastive | 장점 | 단점 |
     | :---: | :---: | :---: |
     | w/o | - complete한 representation을 code할 잠재력이 더 큼 | - sample 사이의 구별되는 특징에 대해 덜 배움 |
     | w/  | - sample 사이의 구별되는 특징에 대해 더 집중<br/>- pretext task와 downstream task가 유사하면 유리<br/>- downstream에 대해 fine-tuning하면 더 general complete representation 얻을 가능성 있음 | - reducing redundancy in representations for downstream tasks seems to be harder than restoring the lost representation completeness<br/>- w/o이 더 좋은 결과 내고 있음 |
+ 

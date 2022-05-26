@@ -5,8 +5,11 @@ title: "Self-Supervised Learning 개요"
 date: 2022-05-25 14:22
 #background: 
 tag: [Self-Supervised Learning, SSL]
-classes: wide
+#classes: wide
 published: true
+
+toc: true
+toc_float: true
 ---
 
 # 1. What is Self-Supervised Learning?
