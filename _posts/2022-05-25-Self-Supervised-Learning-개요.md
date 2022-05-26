@@ -16,10 +16,10 @@ toc_sticky: false
 
 | Learnings  | explaination |
 | --- | --- |
-| Supervised Learning  | Learn with “labeled” data |
-| Weakly Supervised Learning | Learn with coarse labels ex) segmentation with scribbles |
-| Semi-Supervised Learning | Learn with “labeled + unlabeled” data ex) MIL(Multiple Instance Learning) |
-| Self-Supervised Learning | Learn with “unlabeled” data |
+| Supervised Learning  | Learn with **“labeled”** data |
+| Weakly Supervised Learning | Learn with **"coarse"** labels ex) segmentation with scribbles |
+| Semi-Supervised Learning | Learn with **“labeled + unlabeled”** data ex) MIL(Multiple Instance Learning) |
+| Self-Supervised Learning | Learn with **“unlabeled”** data |
 
 [Image Feature Learning - supervised, self-supervised, semi-supervised, weakly-supervised](https://nuguziii.github.io/survey/S-004/)  
  <br/>
@@ -42,7 +42,7 @@ toc_sticky: false
 
 Energy-Based Functions : 연속적인 데이터는 low energy, 불연속적인 데이터는 high energy
 
-## **1. Contrastive Learning**
+## **1. Contrastive/Non-Contrastive Learning**
 1. **Masked Auto-Encoder**
     - BERT/RoBERTa :  corrupt data and tries to reconstruct the text (+Transformer)
     - 미적분까지 하는 모델 있음
@@ -59,6 +59,7 @@ Energy-Based Functions : 연속적인 데이터는 low energy, 불연속적인 �
     - maximum likelihood의 일종
     - NCE(Noise Contrastive Estimation): batch >> softmax >> negative push large, positive pull small      
     <br/>
+
 3. **Non-Contrastive Embedding**
     - BYOL - Bootstrap Your Own Latent
     - 같은 encoder가 아닌 weight 값을 조금 다르게 해준 encoder를 가지고 학습을 진행

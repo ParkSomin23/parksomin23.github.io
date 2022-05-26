@@ -1,4 +1,0 @@
-﻿Name,요약,Examples
-Auto-Encoding,reconstruct the corrupted data while learning the latent representation,"Audio2Vec, BERT, Speech2Vec, Word2Vec"
-Siamese Models,"같은 sample의 다른 view의 similarity 비교, 같거나 유사한 encoder 구조 사용(우리 아는 샴!! 샴 쌍둥이…)","BYOL, Barlow Twins, SimSiam"
-Clustering,pseudo-label 만들기,"DeepCluster, K-means, Local Aggregation, SwAV"
