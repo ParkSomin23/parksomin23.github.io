@@ -37,10 +37,8 @@ toc_sticky: false
 2. Learn Predictive(Forward) models of the world   
   
 > **Question**: How to represent uncertainty/multi modality in the prediction?  
-  **‼️**: Energy-Based Functions
+  **‼️**: Energy-Based Functions (연속적인 데이터는 low energy, 불연속적인 데이터는 high energy)
 >
-
-Energy-Based Functions : 연속적인 데이터는 low energy, 불연속적인 데이터는 high energy
 
 ## **1. Contrastive/Non-Contrastive Learning**
 1. **Masked Auto-Encoder**

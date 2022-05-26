@@ -20,7 +20,7 @@ use_math: true
 
 # A) Views Generation
 - SSL의 목적은 large-scale data에서 latent representation 찾기
-- 같은 context에서 여러 view들을 얻기 위한 방법으로는 물체를 여러 방향으로 찍는 방법이 있음
+- 같은 context에서 여러 view들을 얻기 위한 방법으로는 물체를 여러 방향에서 찍는 방법이 있음
 - 하지만 같은 modality일 필요는 없음 >> multi-modelity & cross-modality는 SSL에서 자주 사용
     - text’s utterance
     - video’s audio and image frame within the same source
@@ -33,7 +33,7 @@ use_math: true
     - global representation은 context vector라고 종종 정의됨
     - SSL에서는 종합된(aggregated) global representation과 연관된 local representative을 배움
     - DeepInfoMax에서는 image를 global context vector로 코딩한 후, 그 image의 패치와 다른 이미지의 패치와의 거리를 비교
-    - Context vector는 auto-regressive한 방식으로 global information을 수집하고 그 vector가 local frame과 비교되어 학습 진행
+    - **3.Contrastive Predict Coding(CPC)** 에서는 Context vector는 auto-regressive한 방식으로 global information을 수집하고 그 vector가 local frame과 비교되어 학습 진행
 
 <br/>
 
