@@ -40,7 +40,7 @@ use_math: true
 - optimizes the similarity or correlations between representations of two views of **same objects**
 
 - ### **1) Auto-Encoding**
-    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/1C03F6D6-CFC0-41A7-AAA0-A5025D0BCE0F.jpeg" width="20%" height="20%">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/1C03F6D6-CFC0-41A7-AAA0-A5025D0BCE0F.jpeg" width="30%" height="30%">
     
     | Examples | 요약 |
     | :---: | :---: |
@@ -89,7 +89,7 @@ use_math: true
   | :---: | :---: |
   | BYOL, Barlow Twins, SimSiam | 같은 sample의 다른 view의 similarity 비교, 같거나 유사한 encoder 구조 사용<br/>(우리 아는 "샴" 쌍둥이…)|
 
-    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_11-42-40.png" width="20%">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_11-42-40.png" width="30%">
     <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_11-46-41.png" width="35.5%">
 
     **설명**
@@ -186,7 +186,7 @@ use_math: true
   | :---: | :---: |
   |DeepCluster, K-means, Local Aggregation, SwAV|pseudo-label 만들기|
 
-    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_18-32-50.png" width="20%">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_18-32-50.png" width="30%">
 
     **설명**
     - 서로 다른 물체들은 자연적으로 구별되는 카테고리에 연관되어 있으며, 각 카테고리는 분리된 manifold를 차지할 것으로 생각
