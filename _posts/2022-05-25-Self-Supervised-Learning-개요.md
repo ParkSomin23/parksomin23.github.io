@@ -9,7 +9,7 @@ tag: [Self-Supervised Learning, SSL]
 published: true
 
 toc: true
-toc_float: true
+toc_sticky: false
 ---
 
 # 1. What is Self-Supervised Learning?

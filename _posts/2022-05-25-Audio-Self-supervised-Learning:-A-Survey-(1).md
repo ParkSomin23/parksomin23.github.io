@@ -9,13 +9,14 @@ tag: [Self-Supervised Learning, SSL]
 published: true
 
 toc: true
-toc_float: true
+toc_sticky: false
 
 use_math: true
 
 ---
 
-[논문 : Audio Self-supervised Learning: A Survey](https://arxiv.org/abs/2203.01205)
+[논문 : Audio Self-supervised Learning: A Survey](https://arxiv.org/abs/2203.01205)  
+
 
 # A) Views Generation
 - SSL의 목적은 large-scale data에서 latent representation 찾기
@@ -50,6 +51,7 @@ use_math: true
     | Examples | 요약 |
     | :---: | :---: |
     |Audio2Vec, BERT, Speech2Vec, Word2Vec|reconstruct the corrupted data while learning the latent representation|
+    
 
     **설명**
     - latent dimension 크기를 잘 정해야함
@@ -196,7 +198,7 @@ use_math: true
     <br/>
 
 - ### **3) Clustering**
-    
+    <br/>
     <p align="center">
     <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_18-32-50.png" width="25%">
     </p>
