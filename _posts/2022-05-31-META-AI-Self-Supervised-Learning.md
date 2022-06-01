@@ -6,7 +6,7 @@ date: 2022-05-31 14:22
 #background: 
 tag: [Self-Supervised Learning, SSL]
 #classes: wide
-published: false
+published: true
 
 toc: true
 toc_sticky: false
