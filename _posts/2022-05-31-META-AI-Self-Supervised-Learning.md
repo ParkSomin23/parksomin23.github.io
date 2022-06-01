@@ -53,7 +53,8 @@ toc_sticky: false
 
 # 3. Self-Supervised Learning for LANGUAGE vs VISION <br> and Modeling the Uncertainty in Prediction
 <p align="center">
-<img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/uncertainty.png" width="50%">
+<img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/uncertainty.png" width="40%">
+<img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/constrastive.png" width="45%">
 </p>
 <br>
 
@@ -97,18 +98,34 @@ toc_sticky: false
 <em><br>w: share same parameters <br> function C: produce a scalar energy, measures the distance</em>
 </p>
 
-### **(1) Contrastive energy-based SSL**  
-
-<br>
-<p align="center">
-<img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/constrastive.png" width="45%">
-</p>
-
-- low-energy는 상대적으로 쉽지만, high-energy를 만드는 network를 만드는 것은 힘듦
+- 유사한 데이터를 넣어주어 low-energy로 만드는 것은 상대적으로 쉽지만, high-energy를 만드는 network를 만드는 것은 힘듦
 - 특별한 제약을 주지 않으면, Siamese network들이 input을 무시하고 두 개의 똑같은 embedding을 만들 수 있음(**COLLAPSE**)
 - collapse가 발생하면 nonmatching energy가 matching energy보다 높지 않음
 - collapse를 피하기 위한 방법
     - 1.contrastive methods
     - 2.regularization methods
+
+### **(1) Contrastive energy-based SSL**  
+
+<br>
+<p align="center">
+<img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/constrastive_2.png" width="45%">
+</p>
+
+- 기존 NLP 접근 방법은 주어진 input에 대해 단 하나의 prediction만 나옴 >> 이미지에 적용할 수 없는 이유
+- joint embedding architecture보다 좋은 결과는 아니지만 흥미로운 접근 방식이 있음 >> **latent-variable predictive architecture**
+- Latent-Variable Predictive Architecture
+	- z: extra input variable, 관측되지 않음
+	- z도 set에 따라 변화함
+	- 관측된 x에 대해 그럴듯한 예측값을 만들어냄
+- contrastive method를 통해 학습됨
+- 가장 좋은 예시가 GAN(Gererative Adversarial Network)
+	- discriminator: input y가 괜찮아 보이는지 에너지 계산
+	- generator: contrastive한 sample들을 만들어서 discriminator가 high energy 가진 것도 학습할 수 있게함
+- 하지만 contrastive method 자체의 큰 문제 있음
+	> Tolstoy’s Anna Karenina : “Happy families are all alike; every unhappy family is unhappy in its own way.”
+    - 이미지와 같은 high-dimensional spaces에 대해 비효율적
+	- 한 이미지가 다른 이미지와 다를 수 있는 방법은 엄청 다양
+	
 
 ### **(2) Non-contrastive energy-based SSL**  
