@@ -127,5 +127,21 @@ toc_sticky: false
     - 이미지와 같은 high-dimensional spaces에 대해 비효율적
 	- 한 이미지가 다른 이미지와 다를 수 있는 방법은 엄청 다양
 	
-
 ### **(2) Non-contrastive energy-based SSL**  
+- 요즘 vision SSL에서는 non-contrastive가 hot한 방법
+- DeepCluster, ClusterFit, MoCo-v2, SwAV, SimSiam, Barlow Twins, BYOL
+- DeepCluster, SwAV, SimSiam: 비슷한 이미지 그룹에 대해 가상의 target embedding 계산
+- BYOL, MoCo: 구조 혹은 parameter vector 값을 조금 다르게 해서 두 개의 joint embedding을 조금 다르게 만듦
+- Barlow Twins: embedding vector의 각자의 요소의 redundancy(중복성)을 최소화  
+<br>
+
+- 가장 좋은 방법은 non-contrastive와 latent-variable predictive model을 합치는 것
+- 주요 방해물은 latent variable의 용량(capacity)를 최소화하는 방법을 찾아야하는 것
+	- latent variable이 바뀔 수 있는 set의 volume은 output이 low-energy를 가짐으로써 volume릏 제한할 수 있음
+	 - 이 volume이 최소화되면서, 자동적으로 에너지의 분포가 알맞게 이루어질 수 있음  
+- 1) Variational Auto-Encoder(VAE)가 대표적
+	- latent variable이 흐릿(fuzzy)함으로 그 용량(capacity)을 제한
+	- 하지만 아직 visual downstream task에 대해 좋은 representations을 나타내지는 않음
+- 2) Sparse modeling도 다른 예시
+	- 단순한 구조에만 사용 가능 
+
