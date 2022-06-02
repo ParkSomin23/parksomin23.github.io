@@ -2,7 +2,7 @@
 #layout: post
 title: "META AI Self-supervised learning April 2021"
 #subtitle: "[Tips]"
-date: 2022-05-31 14:22
+date: 2022-06-01 17:00
 #background: 
 tag: [Self-Supervised Learning, SSL]
 #classes: wide
@@ -53,7 +53,7 @@ toc_sticky: false
 
 # 3. Self-Supervised Learning for LANGUAGE vs VISION <br> and Modeling the Uncertainty in Prediction
 <p align="center">
-<img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/uncertainty.png" width="40%">
+<img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/uncertainty.png" width="38.6%">
 <img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/constrastive.png" width="45%">
 </p>
 <br>
@@ -109,7 +109,7 @@ toc_sticky: false
 
 <br>
 <p align="center">
-<img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/contrastive_2.jpeg" width="45%">
+<img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/contrastive_2.jpeg" width="35%">
 </p>
 
 - 기존 NLP 접근 방법은 주어진 input에 대해 단 하나의 prediction만 나옴 >> 이미지에 적용할 수 없는 이유
