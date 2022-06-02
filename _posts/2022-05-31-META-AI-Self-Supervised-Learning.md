@@ -24,19 +24,20 @@ toc_sticky: false
     - ex1) 아이들에게 소 그림을 몇 장 보여주면, 소를 보면 바로 알아 볼 수 있음
     - ex2) 운전 연수 몇 시간 받으면 운전 가능
 - supervised learning으로 학습된 AI에게 common sense는 dark matter(암흑물질)
-    - ex) 수많은 소 사진을 보여주고 **unusual** 한 상황에서는 소라고 판단하지 못하기도 함
+    - ex) 수많은 소 사진을 보여줘야하며, **unusual** 한 상황에서는 소라고 판단하지 못하기도 함
      <br> 소가 바닷가에서 누워있는 경우 >> 소는 초원이나 농장에 있기에 소가 아닐 것이다 판단
     - ex2) 완전 자율 주행 자동차는 몇 천 시간의 학습 필요  
     <br>  
 - 사람은 이전에 습득한 배경 지식에 의존하여 세상 이해
 - 그럼 AI는 어떻게 해야할까?
 - \>> **Self-Supervised Learning** 이 사람과 유사한 common sense와 배경 지식을 근사할 수 있는 방법이라고 생각됨
-- 더 많은 데이터로부터 학습 가능하기에 마묘하고 덜 흔한 개념(representation) 학습에 유리
+- 더 많은 데이터로부터 학습 가능하기에 미묘하고 덜 흔한 개념(representation) 학습에 유리
 - META AI-project SEER: label 없는 10억 개의 random한 이미지 사용하여 학습 진행  
 
 <br>
 
-# 2. Self-Supervised Learning is Predictive Learning
+# 2. Self-Supervised Learning is Predictive Learning  
+<br>
 
 <p align="center">
 <img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/LeCun_predictive.png">
@@ -47,7 +48,7 @@ toc_sticky: false
 - SSL의 일반적인 방법은 관측되지 않거나 가려진 input의 부분 **예측** 하기 
     - NLP: 문장에서 일부분을 가리고 들어갈 단어 예측
     - Video: 현재 관측되는 자료로 과거 혹은 미래의 frame 예측
-- 데이터 자체의 구조 사용하기에 동시에 일어나는(co-occurring, e.g. video + audio) modalities(와의 결합 가능하며 label에 상관없이 수집된 다른 데이터셋 사용가능  
+- 데이터 자체의 구조 사용하기에 동시에 일어나는(co-occurring, e.g. video + audio) modalities와 결합 가능하며 label에 상관없이 수집된 다른 데이터셋 사용가능  
 
 <br>
 
@@ -64,9 +65,9 @@ toc_sticky: false
 - language에 사용된 기법은 CV로 확장 쉽지 않음
     - NLP에서는 모든 전 어휘에서 가능한 단어들의 확률로 표현 가능 <br>
       ex) The _____ chases the _____ in the savanna <br> 
-      \>> 첫 빈칸은 대초원에 있는 표식자들에게만 높은 점수, 나머지 단어는 낮은 점수 <br>
-      \>> softmax 사용 \>> 일종의 **classification** 으로 볼 수 있음
-    - 이미지는 경우의 수가 무한 (uncertainty 표현 방법이 모호) \>>SWaV & SEER <br>
+      \>> 첫 빈칸은 대초원에 있는 포식자들에게만 높은 점수, 나머지 단어는 낮은 점수 <br>
+      \>> softmax 사용 >> 일종의 **classification** 으로 볼 수 있음
+    - 이미지는 경우의 수가 무한 (uncertainty 표현 방법이 모호) >> SwAV & SEER <br>
       high-dimenstional & continuous
 - run time과 memory 측면 + 정확도가 떨어지지 않을만큼의 효율적인 model 구조 필요
     - FAIR에서 만든 RegNets: 10억~1조정도의 parameter를 가진 ConvNet, runtime과 memory limitation optimize 가능  
@@ -125,7 +126,7 @@ toc_sticky: false
 - 하지만 contrastive method 자체의 큰 문제 있음
 	> Tolstoy’s Anna Karenina : “Happy families are all alike; every unhappy family is unhappy in its own way.”
     - 이미지와 같은 high-dimensional spaces에 대해 비효율적
-	- 한 이미지가 다른 이미지와 다를 수 있는 방법은 엄청 다양
+	- 한 이미지가 다른 이미지와 다를 수 있는 방법은 엄청 다양함
 	
 ### **(2) Non-contrastive energy-based SSL**  
 - 요즘 vision SSL에서는 non-contrastive가 hot한 방법
@@ -137,7 +138,7 @@ toc_sticky: false
 
 - 가장 좋은 방법은 non-contrastive와 latent-variable predictive model을 합치는 것
 - 주요 방해물은 latent variable의 용량(capacity)를 최소화하는 방법을 찾아야하는 것
-	- latent variable이 바뀔 수 있는 set의 volume은 output이 low-energy를 가짐으로써 volume릏 제한할 수 있음
+	- latent variable이 바뀔 수 있는 set의 volume은 output이 low-energy를 가짐으로써 volume 제한 가능
 	 - 이 volume이 최소화되면서, 자동적으로 에너지의 분포가 알맞게 이루어질 수 있음  
 - 1) Variational Auto-Encoder(VAE)가 대표적
 	- latent variable이 흐릿(fuzzy)함으로 그 용량(capacity)을 제한
