@@ -48,7 +48,7 @@ wav2vec 2.0 다음은 나중에 정리할 예정
     <br/>
 3. PASE & PASE+ (The Problem Agnostic Speech Encoder)    
     <p align="center">
-    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/DAPC.png">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/PASE.png">
     </p>  
 
     - CNN encoder 1개 + 여러개의 neural decoder(worker)
