@@ -192,7 +192,8 @@ wav2vec 2.0 다음은 나중에 정리할 예정
             L = \sum_{k=1}^KL_k
             $$
 
-            - sigmoid $\sigma(x)={1}\ / \ (1+exp(-x)) \\ \sigma (z^T_{i+k}\ h_k(c_i))$: $\ z_{i+k}$가 true sample일 확률  
+            - sigmoid $\sigma(x)={1}\ / \ (1+exp(-x))$
+            - $\sigma (z^T_{i+k}\ h_k(c_i))$: $\ z_{i+k}$가 true sample일 확률  
             - $h_k(c_i)=W_kc_i+b_k$: step-specific affine transformation
             - expectation $\mathbb{E}$ 는 $p_n(z)=\frac{1}{T}$ 에서 10개의 negative sample을 뽑고 $\lambda$는 negative의 개수 (T: sequence length)
         - 학습 후에는 log-mel filterbank 대신에 $c_i$를 input으로 넣어줌  
