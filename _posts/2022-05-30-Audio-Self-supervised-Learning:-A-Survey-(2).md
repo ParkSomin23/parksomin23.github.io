@@ -37,7 +37,7 @@ wav2vec 2.0 다음은 나중에 정리할 예정
       | explicit한 도움 필요 없음  <br/> (supervision한 부분 완전 제거) | 각 단어에 맞는 audio slice segmentation을 위한  <br/> explicit forced alignment technique 사용|
       | CNN 기반 | RNN 기반 |
       | MFCC | Mel-spectrogram |
-      | <mark style='background-color: #A0BCC2'>TemporalGap</mark> <br/> (같은 audio clip 내에 random하게  <br/> sampled된 data 사이의 정재적 시간 차이 예측) | - |  
+      | <mark style='background-color: #A0BCC2'>TemporalGap</mark> <br/> (같은 audio clip 내에 random하게  <br/> sampled된 data 사이의 시간 차이 예측) | - |  
 
     - TemporalGap이 CBoW나 Skip-gram보다 더 좋은 결과를 내진 않았지만, pretext task를 상대적인 시간 측정이라는 새로운 관점 제시  
     <br/>
