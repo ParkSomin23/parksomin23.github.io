@@ -4,6 +4,7 @@ title: "Audio Self-supervised Learning: A Survey (1) A General Overview"
 #subtitle: "[Tips]"
 date: 2022-05-25 20:08
 #background: 
+#category: "논문 리뷰"
 tag: [Self-Supervised Learning, SSL]
 #classes: wide
 published: true
@@ -15,7 +16,8 @@ use_math: true
 
 ---
 
-[논문 : Audio Self-supervised Learning: A Survey](https://arxiv.org/abs/2203.01205)  
+논문 :[Audio Self-supervised Learning: A Survey](https://arxiv.org/abs/2203.01205)  
+연관 포스트: [Audio Self-supervised Learning: A Survey (2) Audio ]({% post_url 2022-05-30-Audio-Self-supervised-Learning:-A-Survey-(2) %}) 
 
 
 # A) Views Generation

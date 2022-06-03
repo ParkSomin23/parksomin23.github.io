@@ -4,6 +4,7 @@ title: "Audio Self-supervised Learning: A Survey (2) Audio"
 #subtitle: "[Tips]"
 date: 2022-06-02 18:44
 #background: 
+#category: "논문 리뷰"
 tag: [Self-Supervised Learning, SSL, Audio]
 #classes: wide
 published: true
@@ -12,7 +13,8 @@ toc: true
 toc_sticky: false
 ---
 
-[논문 : Audio Self-supervised Learning: A Survey](https://arxiv.org/abs/2203.01205)  
+논문 : [Audio Self-supervised Learning: A Survey](https://arxiv.org/abs/2203.01205)  
+연관 포스트: [Audio Self-supervised Learning: A Survey (1) A General Overview ]({% post_url 2022-05-25-Audio-Self-supervised-Learning:-A-Survey-(1) %}) 
 
 분류 방식은 논문에는 Contrastive Model 중에서 Auto-Encoding/Siamese/Clusetering 그리고 Contrastive Model로만 분류가 되어 있습니다.  
 세부적인 분류는 "Audio Self-supervised Learning: A Survey" 설명만 읽고 임의로 분류했기에 분류가 틀릴 수도 있습니다.
@@ -58,7 +60,7 @@ wav2vec 2.0 다음은 나중에 정리할 예정
     - PASE+
         - data augmentation
         - more efficient workers
-        - Quasi-RNN(QRNN)-long-term dependencies capture에 더 효과적
+        - [Quasi-RNN(QRNN)](https://arxiv.org/pdf/1611.01576.pdf): long-term dependencies capture에 더 효과적
 <br/>
 
 ### **b) Auto-regressive Predictive Coding (APC)**
