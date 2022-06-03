@@ -84,19 +84,18 @@ wav2vec 2.0 다음은 나중에 정리할 예정
 
 3. Audio ALBERT
     - Mockingjay와 똑같은 구조
-    - trandformer encoder layer parameter 값 동유
+    - transformer encoder layer parameter 값 동유
         - 빠른 추리(inference), 빠른 학습 속도
         - performance 유지: speaker classificaion과 phoneme(음소: ㄱ,ㄴ,ㄷ,ㅏ,ㅓ,ㅗ ...) classificaion   
     <br/>
 
-4. TERA (Transformer Encoder Representations from Alteration) 
+4. [TERA (Transformer Encoder Representations from Alteration)](https://arxiv.org/pdf/2007.06028.pdf)   
     - continuous >> randomness segments
     - channel 측 방향으로 masking (특정 frequency all zero)
     - Gaussian noise 추가
     - 2.Mockingjay와 3.Audio ALBERT보다 좋은 결과
         - performance 향상: speaker classificaion, phoneme classificaion, keyword spotting
         - ASR task에서 기대해 볼 만한 성능: Librispeech, TIMIT dataset
-    - [TERA link](https://arxiv.org/pdf/2007.06028.pdf)  
     <br/>
 
 
