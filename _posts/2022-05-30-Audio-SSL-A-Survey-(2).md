@@ -68,8 +68,9 @@ wav2vec 2.0 다음은 나중에 정리할 예정
 ### **c) Masked Predictive Coding (MPC)**
 1. Masked Acoustic Model (MAM)
     - audio input의 일부분을 masking한 후, 전체 input reconsturct
-    - reconstruction error 최소화   
+    - reconstruction error 최소화  
     <br/>
+
 2. Mockingjay  
     <br/>  
     <p align="center">
@@ -95,7 +96,7 @@ wav2vec 2.0 다음은 나중에 정리할 예정
     - Gaussian noise 추가
     - 2.Mockingjay와 3.Audio ALBERT보다 좋은 결과
         - performance 향상: speaker classificaion, phoneme classificaion, keyword spotting
-        - ASR task에서 기대해 볼 만한 성능: Librispeech, TIMIT dataset
+        - ASR task에서 기대해 볼 만한 성능: Librispeech, TIMIT dataset  
     <br/>
 
 
@@ -137,6 +138,7 @@ wav2vec 2.0 다음은 나중에 정리할 예정
     - raw waveform이랑 time-frequency feature에 data augmentation 
     - <mark style='background-color: #A0BCC2'>다양한 augmentation에 대한 연구 진행</mark>
     - 상당히 적은 수의 labelled data를 사용하여 contrastive loss를 결합하면 SSL만 사용했을 때보다 수렴 속도, representation effectiveness의 개선이 있었음  
+    - [CLAR 정리]({% post_url 2022-06-15-CLAR %})  
     <br/>
 
 4. Wang

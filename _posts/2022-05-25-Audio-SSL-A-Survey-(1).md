@@ -169,7 +169,7 @@ use_math: true
         - weight decay가 안정적인 수렴에 큰 도움
         - BYOL의 batch normalizaton을 group normalization과 weight standaedization으로 교체  
     <br/>
-    - #### **Barlow Twins (BT)** [Barlow Twins](https://arxiv.org/pdf/2103.03230.pdf)
+    - #### **[Barlow Twins (BT)](https://arxiv.org/pdf/2103.03230.pdf)**
         
         - 신경과학자 H. Barlow의 redundancy reduction principle에서 영감을 받음
             
@@ -224,8 +224,7 @@ use_math: true
         - two-step에서 소요되는 시간 감소
         - pseudo-label들이 mini-batch 안에서 진행
         - multi-crop augumentation 소개: swapped prediction problem 해결이 목표, smaller crops
-        
-        [swav/README.md at main · facebookresearch/swav](https://github.com/facebookresearch/swav/blob/main/README.md)
+        - [swav/README.md at main · facebookresearch/swav](https://github.com/facebookresearch/swav/blob/main/README.md)
 
 <br/>
 <br/>
@@ -235,6 +234,7 @@ use_math: true
 <p align="center">
 <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot from 2022-05-26 17-13-04.png" width="30%">
 </p>
+
 - negative sample은 밀고, positive sample은 당기는 방법 >> contrastive loss을 디자인하는 것이 중요함
 
 - ### **Contrastive Loss**
@@ -262,19 +262,21 @@ use_math: true
             
     - Multi-Class N-pair loss
         - 다수의 negative samples과 joint comparisons, N=2면 triplet loss
-        - softmax와 비슷한 수식(survey말고 원래 논문 수식 참고)
+        - 2N인 이유는 N 개의 sample에서 각각의 augmentation 쌍을 만들기 때문
+        - softmax와 비슷한 수식
             
             $$
-            L(x,x^+,x^-_{n\in [1,N-1]};f) = log(1+\sum_{n=1}^{N-1}{exp(f^Tf_i-f^Tf^+)}  \\
-            =-log\frac{exp(f^Tf^+)}{exp(f^Tf^+)+\sum_{i=1}^{N-1}{exp(f^Tf_i)}}
+            L(x,x^+,x^-_{n\in [1,2N-1]};f) = log(1+\sum_{n=1}^{2N-1}{exp(f^Tf_i-f^Tf^+)}  \\
+            =-log\frac{exp(f^Tf^+)}{exp(f^Tf^+)+\sum_{i=1}^{2N-1}{exp(f^Tf_i)}}
             $$
             
-    - NT-Xnet
+    - NT-Xent
         - normalized temperature-scaled cross-entropy loss
+        - 2N인 이유는 N 개의 sample에서 각각의 augmentation 쌍을 만들기 때문
         - $\tau$: temperature parameter for controlling the penalty on the effect of negative samples
             
             $$
-            L(x,x^+,x^-_{n\in [1,N-1]};f) = -log\frac{exp(f^Tf^+/\tau)}{\sum_{i=1}^{N-1}{exp(f^Tf_i/\tau)}}
+            L(x,x^+,x^-_{n\in [1,2N-1]};f) = -log\frac{exp(f^Tf^+/\tau)}{\sum_{i=1}^{2N-1}{exp(f^Tf_i/\tau)}}
             $$
             
     - InfoNCE
@@ -289,6 +291,7 @@ use_math: true
         - 분모는 1개의 positive + N-1개의 negative으로 구성 >> softmax classifier로 N class cross-entropy 사용하여 optimize
         - classifier은 positive에 큰 값을, negative에는 작은 값을 줌  
     <br/>
+
 - ### **Contrastive SSL for Siamese Models**
     - #### **SimCLR**
         - 다양한 data augmentation을 사용(random cropping, resizing, color distortions, Gaussian blur)
@@ -296,7 +299,8 @@ use_math: true
         - Projection head (Dense-ReLU-Dense)
         - NT-Xnet을 objective function으로 사용 (contrastive loss에 설명 있음)
         - 이 방법의 성공 보장을 위한 “Scaling Up”의 중요성 강조
-            - larger bath size, deeper & wider network, train longer epochs
+            - larger bath size, deeper & wider network, train longer epochs  
+        <br/>
             
     - #### **Momentum Contrast (MoCo)**  [설명된 blog](https://rauleun.github.io/MoCo)
         - negative sample은 이전 batch에서 가져옴 (representation 형식으로 queue에 저장됨)     
