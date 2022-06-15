@@ -275,8 +275,10 @@ defaults:
       share: true
       related: true
       #sidebar_main: true
+      toc: true
       toc_label: "목록"
       toc_icon: "bars"
+      toc_sticky: false
       sidebar:
         nav: "main"
      

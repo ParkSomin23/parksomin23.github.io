@@ -1,13 +1,13 @@
 # main links
 main:
   - title: "논문 리뷰"
-    url: #https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
+    url: https://parksomin23.github.io/categories/논문 리뷰/ #https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
   - title: "코딩 테스트"
-    children:
+    children: https://parksomin23.github.io/categories/코딩 테스트/
       - title: "삼성 아카데미"
-        url:
+        url: https://parksomin23.github.io/categories/코딩 테스트/삼성 아카데미
   - title: "메모"
-    url:
+    url: https://parksomin23.github.io/categories/메모/
   # - title: "About"
   #   url: https://mmistakes.github.io/minimal-mistakes/about/
   # - title: "Sample Posts"
