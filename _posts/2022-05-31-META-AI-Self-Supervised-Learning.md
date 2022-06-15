@@ -4,7 +4,7 @@ title: "META AI Self-supervised learning April 2021"
 #subtitle: "[Tips]"
 date: 2022-06-01 17:00
 #background: 
-category: "논문 리뷰"
+category: "논문-리뷰"
 tag: [Self-Supervised Learning, SSL]
 #classes: wide
 published: true
