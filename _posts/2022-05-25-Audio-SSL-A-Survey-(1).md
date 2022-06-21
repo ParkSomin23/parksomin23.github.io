@@ -46,7 +46,7 @@ use_math: true
 
 - ### **1) Auto-Encoding**
     <p align="center">
-    <img src="../논문-리뷰/assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/1C03F6D6-CFC0-41A7-AAA0-A5025D0BCE0F.jpeg" width="30%" height="30%">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/1C03F6D6-CFC0-41A7-AAA0-A5025D0BCE0F.jpeg" width="30%" height="30%">
     </p>
     
     
@@ -65,7 +65,7 @@ use_math: true
     - 전체 원본은 예측하는 것이 아닌 일부분을 예측하는 모델도 많음
         - 대표적인 예가 바로 Word2Vec  
         <p align="center">
-        <img src="../논문-리뷰/assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_10-31-46.png" width="60%" height="30%">
+        <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_10-31-46.png" width="60%" height="30%">
         </p>
           
         - CBoW는 단어 사이의 구문적인(문법적인, syntactic) 관계 파악에 유리
@@ -77,7 +77,7 @@ use_math: true
     - #### **Auto-Regressive Coding(APC) & Masked Predictive Coding(MPC) & Non-autoregressive Predictive Coding(NPC)**  
         <br/>
         <p align="center">
-        <img src="../논문-리뷰/assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_10-53-55.png" width="63%">
+        <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_10-53-55.png" width="63%">
         </p>
 
         - APC
@@ -103,8 +103,8 @@ use_math: true
     <br/>
 
     <p align="center">
-    <img src="../논문-리뷰/assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_11-42-40.png" width="24%">
-    <img src="../논문-리뷰/assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_11-46-41.png" width="42.6%">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_11-42-40.png" width="24%">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_11-46-41.png" width="42.6%">
     </p>
 
     | Examples | 요약 |
@@ -202,7 +202,7 @@ use_math: true
 - ### **3) Clustering**
     <br/>
     <p align="center">
-    <img src="../논문-리뷰/assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_18-32-50.png" width="25%">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot_from_2022-05-24_18-32-50.png" width="25%">
     </p>
     
     | Examples | 요약 |
@@ -232,7 +232,7 @@ use_math: true
 ## 2. **Contrastive Models**
 <br/>
 <p align="center">
-<img src="../논문-리뷰/assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot from 2022-05-26 17-13-04.png" width="30%">
+<img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(1)/Screenshot from 2022-05-26 17-13-04.png" width="30%">
 </p>
 
 - negative sample은 밀고, positive sample은 당기는 방법 >> contrastive loss을 디자인하는 것이 중요함
