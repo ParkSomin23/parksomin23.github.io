@@ -50,7 +50,7 @@ toc_sticky: false
     - sensory processing은 high-redundant sensoty input을 fatorial code로 recoding하는 것
     - factorial code: 통계적으로 독립된 구성 요소로 이루어진 code
     - twin embeddings으로 만든 cross-correlation matrix를 identity matrix과 가깝도록 object function 구성
-    - 큰 batch, 비대칭적인 구조(prediction network, momentum encodersm non-differentiable operators, stop-gradient) 필요 없음
+    - 큰 batch, 비대칭적인 구조(prediction network, momentum encoder, non-differentiable operators, stop-gradient) 필요 없음
     - high-dimensional embedding에 유리  
 <br/>
 
@@ -122,28 +122,164 @@ $$
 - embedding은 downstream task에 사용하고, embedding은 loss 계산에 사용  
 <br/>
 
-### (3) Optimization
-- | 방법 | 내용 |  
-  |:---:|:---:|  
-  |**epoch**|1000|
-  |**batch size**|2048 (256~)|
-  |**optimizer**| LARS|
-  |**learning rate**|weight: $0.2 \times (batch\_size/256)$<br/>bias & batch norm: $0.0048 \times (batch\_size/256)$|  
-  |**weight decay**| $1.5\times 10^{-6}$|  
-  |**linear warmup**| for 10 epochs|  
-  |**scheduler**| cosine decay, factor 1000|  
-  |**trade off parameter**|$\lambda=5\times 10^{-3}$|
-  |**기타**|bias와 batch norm parameters은 LARS adaptation과 weight decay에서 제외됨|
+### (3) Optimization 
+| 방법 | 내용 |  
+|:---:|:---:|  
+|**epoch**|1000|
+|**batch size**|2048 (256~)|
+|**optimizer**| LARS|
+|**learning rate**|weight: $0.2 \times (batch\_size/256)$<br/>bias & batch norm: $0.0048 \times (batch\_size/256)$|  
+|**weight decay**| $1.5\times 10^{-6}$|  
+|**linear warmup**| for 10 epochs|  
+|**scheduler**| cosine decay, factor 1000|  
+|**trade off parameter**|$\lambda=5\times 10^{-3}$|
+|**기타**|bias와 batch norm parameters은 LARS adaptation과 weight decay에서 제외됨|
 <br/>
 
 # 3. Results
-**\<Linear and Semi-Supervised Evaluation on ImageNet>**
+## 1) Linear and Semi-Supervised Evaluation on ImageNet
+**\<Linear Evaluation on ImageNet>**
+<p align="center">
+<img src="../논문-리뷰/assets/images/BarlowTwins/tb1.png" width="45%">
+</p> 
+<br/>
+
+**\<Semi-Supervised Evaluation on ImageNet>**
+<p align="center">
+<img src="../논문-리뷰/assets/images/BarlowTwins/tb2.png" width="45%">
+</p> 
+<br/>
+
+## 2) Transfer to Other Datasets and tasks
+**\<Image Classification with Fixed Features>**
+<p align="center">
+<img src="../논문-리뷰/assets/images/BarlowTwins/tb3.png" width="45%">
+<em><br/>ResNet-50 Freeze</em>
+</p>
+
+- Places-205: scene classification
+- VOC07: multi-label image classification
+- iNaturalist2018: fine-grained image classification
+<br/>
+
+**\<Object Detection and Instance Segmentation>**
+<p align="center">
+<img src="../논문-리뷰/assets/images/BarlowTwins/tb4.png" width="45%">
+<em><br/>Fine-tune ResNet-50</em>
+</p>
+<br/>
+
+# 4. Ablations
+- 1000 epochs $\Rightarrow$ 300 epochs
+- accuracties는 ImageNet training set에서의 2048 dimension으로 학습된 결과값들  
+<br/>
+
+## 1) Loss Function Ablations
+<p align="center">
+<img src="../논문-리뷰/assets/images/BarlowTwins/tb5.png" width="45%">  
+<em><br/>(a)Baseline ~ (g)Cross-entropy with temp.</em>
+</p> 
+
+- (b): removing invariance term(on-diagonal) $\Rightarrow$ worse
+- (c): removing redundancy reduction term(off-diagonal) $\Rightarrow$ collapsed  
+<br/>
+- (d): normalize along feature dimension(unit sphere) $\Rightarrow$ slightly reduced
+    - embedding을 batch dimension으로 normalize(with mean subtraction)  
+    $\Rightarrow$ embedding을 feature dimension으로 normalize(without mean subtraction)  
+    $\Rightarrow \quad \cancel{\text{normalized cross-correlation}} \rightarrow \text{unnormalized covariance matrix}$  
+- (e): projector network에서 batch normalization 제거 $\Rightarrow$ barely affected
+- (f): (e) + loss의 cross-**correlated** matrix를 cross-**covariance** matrix로 바꿈(batch 축으로 noramlize 안 함) $\Rightarrow$ substainally reduced  
+<br/>
+- (g): cross-entropy with temperature $\tau$ $\Rightarrow$ reduced
+    $$
+    \mathcal{L}=-log\sum_i exp(C_{ii}/\tau) + \lambda log\sum_i\sum_{i\neq j}exp(max(C_{ij},0)/\tau)
+    $$
+<br/>
+
+## 2) Robustness to Batch Size
+<p align="center">
+<img src="../논문-리뷰/assets/images/BarlowTwins/fig2.png" width="50%">  
+</p>
+
+- performed grid search of LARS learning rate for each batch size  
+<br/>
+
+## 3) Effect of Removing Augmentations
+<p align="center">
+<img src="../논문-리뷰/assets/images/BarlowTwins/fig3.png" width="50%">  
+</p>
+
+- not robust to augmentations like SimCLR $\rightarrow$ BYOL is robust
+-다르게 보면, 특정한 distortion 사용애 대해 control이 더 좋음  
+<br/>
+
+## 4) Projector Network Depth & Width
+<p align="center">
+<img src="../논문-리뷰/assets/images/BarlowTwins/fig4.png" width="50%">  
+</p>
+
+- BYOL과 SimCLR은 projector network에서 ResNet output을 엄청 줄이고 일정 수준 이상 output이 커져도 변함 없음(saturate) 
+- Barlow Twins는 projector network의 output이 크면 클수록 좋음
+- ResNet-50의 output은 2048로 고정되었음에도 이런 결과 나옴
+- 다른 방법들과 유사하게 projector network layer가 많로질수록 좋았고, 3 layer에서 saturate  
+<br/>
+
+## 5) Breaking Symmetry
+<p align="center">
+<img src="../논문-리뷰/assets/images/BarlowTwins/tb6.png" width="60%">  
+</p>
+
+- asymmetries가 성능을 더 해침  
+<br/>
+
+## 6) BYOL with a Larger Projector/Predictor/Embedding
+<p align="center">
+<img src="../논문-리뷰/assets/images/BarlowTwins/tb7.png" width="60%">  
+</p>
+
+- 성능이 좋아지진 않음   
+<br/>
+
+## 7) Sensitivity to $\lambda$
+<p align="center">
+<img src="../논문-리뷰/assets/images/BarlowTwins/fig5.png" width="50%">  
+</p>
+
+- $\lambda$에 sensitive 하지 않음  
+<br/>
+
+# 5. Discussion
+## 1) Comparison with Prior Art
+### (1) InfoNCE
+- Contrastive SSL 에서 자주 사용하는 loss function
+- InfoNCE
+    - $b$: sample index
+    - $i$: output의 vector component index
+    - $z^A,\ z^B$: twin network outputs
+    - $\tau$: temperature in analogy to statistical physics
+$$
+\mathcal{L} \triangleq - \underbrace{\sum_b\frac{\langle z_b^A,\ z_b^B\rangle_i}{\tau\Vert z_b^A\Vert_2\ \Vert z_b^B\Vert_2}}_{\text{similarity term}}+\underbrace{\sum_b log(\sum_{b'\neq b}exp(\frac{\langle z_b^A,\ z_b^B\rangle_i}{\tau\Vert z_b^A\Vert_2\ \Vert z_b^B\Vert_2}))}_{\text{contrastive term}}
+$$
+- Barlow Twins loss re-write
+$$
+\mathcal{L_{BT}} = - \underbrace{\sum_i(1-\frac{\langle z_{\cdot,\ i}^A,\ z_{\cdot,\ i}^B\rangle_b}{\Vert z_{\cdot,\ i}^A\Vert_2\ \Vert z_{\cdot,\ i}^B\Vert_2})^2 }_{\text{invariance term}}+\underbrace{\lambda\sum_i\sum_{j\neq i}(\frac{\langle z_{\cdot,\ i}^A,\ z_{\cdot,\ i}^B\rangle_b}{\Vert z_{\cdot,\ i}^A\Vert_2\ \Vert z_{\cdot,\ i}^B\Vert_2})^2}_{\text{redundancy reduction term}}
+$$
+- 공통점
+    -  distorted된 data를 twin network에 넣어도 embedding이 invariant하게 되는 게 목표
+
+### (2) Asymmetric Twins
+### (3) Whitening
+### (4) Clustering
+### (5) Noise as Targets
+### (6) IMAX
+
+## 2) Feature Directions
 
 # Appendix A
 <br/>
 <p align="center">
 <img src="../논문-리뷰/assets/images/BarlowTwins/appxA.png" width="45%">
-</p> 
+</p>
 
 - Mutual Information(MI) 
     - [설명된 블로그](https://process-mining.tistory.com/141)
