@@ -1,0 +1,166 @@
+---
+title: "Barlow Twins: Self-Supervised Learningvia Redundancy Reduction"
+date: 2022-06-22 22:44
+category: "논문-리뷰"
+tag: [Self-Supervised Learning, SSL, Vision]
+
+published: true
+toc: true
+toc_sticky: false
+---
+
+> [Barlow Twins: Se;f-Supervised Learningvia Redundancy Reduction](https://arxiv.org/pdf/2103.03230.pdf)  
+
+연관 포스트: 
+1. [Audio Self-supervised Learning: A Survey (1) A General Overview]({% post_url 2022-05-25-Audio-SSL-A-Survey-(1) %})  
+
+> **Abstract**  
+> 1. 같은 데이터에서 왜곡된(distorted/augmented) 두 개의 sample을 똑같은 network를 통과한 output의  cross-correlation matrix을 계산하여  
+자연스럽게 collapse를 피할 수 있는 objective function 제안
+> 2. 다른 SSL과 다르게 large batch size가 필수적이지 않고, network twin도 비대칭이 아님
+> 3. very high-dimensional output vector에 이점 있음
+
+# 1. Introduction
+- SSL 방식들은 공통적으로 다양한 distortion/data augmentation에 invariant한 representation 학습을 목표로 함
+- 여러가지 Siamese Network에 sample의 distorted version을 넣고 representation의 유사도를 최대화하는 방법 사용
+- **(1) Contrastive Methods**
+    - ex) SimCLR [설명 포스트]({% post_url 2022-06-17-SimCLR %})
+    - 'positive'와 'negative' sample pair를 구성
+    - loss function에서 각각 다르게 취급됨
+    - main network과 momentum encoder를 비대칭적으로 update하는 방식 사용 가능  
+    <br/>
+
+- **(2) Clustering Methods** 
+    - 2개의 distorted sample 중,  
+    1개는 loss target   
+    다른 1개는 위의 target을 predict
+    - optimization scheme: k-means(DeepCluster), non-differentiable operators(SwAV, SeLa)  
+    <br/>
+
+- **(3) Similar Line of Works**
+    - ex) BYOL, SimSiam
+    - 비대칭
+        - 구조: predictor network
+        - parameter update: 한 개의 distorted sample로 network update  
+        'stop-gradient'가 문제 해결에 필수  
+        <br/>
+- **Barlow Twins with _Redundanct-Reduction_**
+    - Barlow의 _Possible Princiles Undelyding the tTransoration of Sensory Messages_에서 나온 개념
+    - sensory processing은 high-redundant sensoty input을 fatorial code로 recoding하는 것
+    - factorial code: 통계적으로 독립된 구성 요소로 이루어진 code
+    - twin embeddings으로 만든 cross-correlation matrix를 identity matrix과 가깝도록 object function 구성
+    - 큰 batch, 비대칭적인 구조(prediction network, momentum encodersm non-differentiable operators, stop-gradient) 필요 없음
+    - high-dimensional embedding에 유리  
+<br/>
+
+# 2. Methods 
+## 1) Description of Barlow Twins
+<br/>
+<p align="center">
+<img src="../논문-리뷰/assets/images/BarlowTwins/fig1.png" width="60%">
+</p>  
+
+### (1) Network 구조
+- distorted images에 대한 joint embedding 진행
+- dataset에서 sample된 batch $X$ 에 data augmentations $\mathcal{T}$ 하여 distorted view로 구성된 batch $Y^A,\ Y^B$ 생성
+- function $f_\theta$ 에 넣어서 embeddings $Z^A, \ Z^B$ 만듦 (trainable parameters $\theta$)
+- $Z^A, \ Z^B$ 는 batch dimension에서 mean-centered(zero mean)로 가정  
+<br/>
+
+### (2) Loss Function $\mathcal{L}_{\mathcal{BT}}$
+
+$$
+\mathcal{L}_{\mathcal{BT}} \triangleq \underbrace{\sum_i(1-C_{ii})}_{\text{invariance term}} + \lambda \underbrace{\sum_i\sum_{i\neq j}C_{ij}^2}_{\text{redundancy reduction term}} 
+$$
+ 
+- $\lambda$: 첫번째와 두번째 loss term의 균형(trading off the importance)을 위한 positive constant 
+- $C$: 똑같은 network의 batch dimension을 따라 나온 outputs의 cross-correlation matrix 
+    $$
+    C_{ij} \triangleq\frac{\sum_b\ z_{b,i}^A\ z_{b,j}^B}{\sqrt{\sum_b\ (z_{b,i}^A)^2}\ \sqrt{\sum_b\ (z_{b,j}^B)^2}}
+    $$
+    - $b$: batch sample index
+    - $i,\ j$: networks' outputs vector dimension index
+    - $C$: network output 크기의 square matrix,  
+    -1(perfect anti-correlation) ~ 1(perfect correlation)
+- **_invariance term_**
+    - cross-correlation matrix의 주대각선 성분들을 1에 가깝도록 
+    - embedding이 distortion에 invariant 하도록
+- **_redundancy reduction term_**
+    - 주대각선 성분이 아닌 element가 0이 되도록
+    - embedding의 vector components decorrelate
+    - output units 간의 redundancy 줄여줌
+    - embedding vector의 _soft-whitening_ constant로 볼 수 있음 (**5. Discussion에서 다룸**)
+- 정보 이론의 _Information Bottleneck(IB) Objective_ 으로도 해석 가능
+    - Appendix A에 정리됨
+- 장점
+    - (1) large number of negative sample이 필요 없어서 작은 batch에서도 잘 작동됨
+    - (2) benefits from very high-dimensional embeddings  
+<br/>
+
+<p align="center">
+<img src="../논문-리뷰/assets/images/BarlowTwins/algorithm.png" width="45%">
+</p> 
+<br/>
+
+## 2) Implementation Details
+
+
+<br/>
+
+# Appendix A
+<br/>
+<p align="center">
+<img src="../논문-리뷰/assets/images/BarlowTwins/appxA.png" width="45%">
+</p> 
+
+- Mutual Information(MI) 
+    - [설명된 블로그](https://process-mining.tistory.com/141)
+    - joint distribution $p(X,\ Y)$가 $p(X)p(Y)$와 얼마나 비슷한지 측정
+    $$
+    \mathbb{I}(X;\ Y) \triangleq \mathbb{KL}(p(x,y)\Vert p(x)p(y)) = \sum_y\sum_x p(x,y)log\frac{p(x,y)}{p(x)p(y)}
+    $$
+    - X, Y가 independent하면,  
+    $p(x,y)=p(x)p(y)\quad \Rightarrow\quad log\frac{p(x,y)}{p(x)p(y)}=1 \quad\Rightarrow\quad MI = 0$  
+    <br/>
+
+    - 이를 conditional entropy로 바꾸면
+    $$
+    \mathbb{I}(X;\ Y) = \mathbb{H}(X) - \mathbb{H}(X \vert Y) = \mathbb{H}(Y) - \mathbb{H}(Y \vert X)
+    $$
+    - $\mathbb{H}$: entropy
+    - $Y$에 대한 정보를 앎으로써 $X$에 대한 불확실성이 얼마나 감소했는지?  
+    $\Rightarrow$ $X$가 $Y$에 얼마나 dependent한 지?  
+<br/>
+
+- sample에 적용된 특정한 distortions 정보는 최소화하면서 sample에 있는 정보를 최대한 보존
+    - $I(\cdot\ ,\ \cdot )$: Mutual Information
+    - $\beta$: positive scalar, information 보존하면서 distortion에 invariant 사이의 trade off 
+    - $H(\cdot)$: entropy $\qquad H(\cdot\vert\cdot)$: conditional entropy
+
+    $$
+    \mathcal{IB}_\theta \triangleq I(Z_\theta,\ Y) - \beta I(Z_\theta,\ X)  \\
+    = [H(Z_\theta - H(Z_\theta \vert Y))] - \beta[H(Z_\theta - H(Z_\theta \vert X))]  \\
+    = H(Z_\theta \vert X) + \frac{1-\beta}{\beta}H(Z_\theta)
+    $$
+    
+    - $H(Z_\theta \vert Y)$는 zero entropy를 가지므로 0으로 수렴해서 사라짐  
+    $\Rightarrow$ 이를 정리하면 마지막 식이 나오게 됨  
+    <br/>
+
+    - high dimensional signal의 entropy를 계산하면 single batch보다 크기가 커짐 $\Rightarrow$ Gaussian distribution 가정
+        - covariance function의 determinant의 log로 계산이 단순해짐
+        $$
+        \mathcal{IB}_\theta = \mathbb{E}_X\ log\vert C_{Z_\theta\vert X}\vert + \frac{1-\beta}{\beta}lof\vert C_{Z_\theta}\vert
+        $$
+
+- simplification과 approximations 
+    - $\frac{1-\beta}{\beta}$를 양수 $\lambda$로 대체
+    - covariance matrices의 determinant를 사용해서 바로 optimize하면 SoTA가 안 나옴
+        - 두 번째 term을 cross-correlation matrix의 Frobenius norm의 최소화로 바꿈
+        - loss 계산 전에 batch dimension으로 representaion이 1로 rescale 됐다면(cross-correlation은 rescaling에 invariant),  
+        mimimization은 off-diagonal terms에만 영향을 미치고 0으로 수렴할 수 있도록 도와줌
+    -  두 번째 term은 원래 twin networks에서 나온 값 중 하나로 auto-correlation해서 계산해야하나,  
+    auto-correlation이나 cross-correlation의 차이가 별로 없었음
+    
+
+    

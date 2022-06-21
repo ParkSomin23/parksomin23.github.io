@@ -153,7 +153,7 @@ use_math: true
             - 2개의 view를 바꿔서 다시 학습하여 $\tilde L$ 구하고, 최종 loss는 $L + \tilde L$
             - target network의 느린 업데이트는 online network의 parameter들을 점진적으로 종합하는 효과 >> mode collapse도 방지
             - LARS라는 optimizer도 추가적으로 이용
-                - 다른 layer에 있는파라미터들을 다른 strength로 업데이트  
+                - 다른 layer에 있는 파라미터들을 다른 strength로 업데이트  
     <br/>
     - #### **SimSiam**
         - BYOL과 유사하지만, 차이점은…
@@ -170,7 +170,7 @@ use_math: true
         - BYOL의 batch normalizaton을 group normalization과 weight standaedization으로 교체  
     <br/>
     - #### **[Barlow Twins (BT)](https://arxiv.org/pdf/2103.03230.pdf)**
-        
+        - [정리 포스트]({% post_url 2022-06-22-Barlow-Twins %})  
         - 신경과학자 H. Barlow의 redundancy reduction principle에서 영감을 받음
             
             > **“the goal of sensory processing is to recode highly redundant sensory inputs into a factorial code (a code with statistically independent components)”**

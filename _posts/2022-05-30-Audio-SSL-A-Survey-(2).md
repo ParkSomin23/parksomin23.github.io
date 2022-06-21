@@ -19,8 +19,6 @@ toc_sticky: false
 분류 방식은 논문에는 Contrastive Model 중에서 Auto-Encoding/Siamese/Clusetering 그리고 Contrastive Model로만 분류가 되어 있습니다.  
 세부적인 분류는 "Audio Self-supervised Learning: A Survey" 설명만 읽고 임의로 분류했기에 분류가 틀릴 수도 있습니다.
 
-wav2vec 2.0 다음은 나중에 정리할 예정
-
 <mark style='background-color: #A0BCC2'>**더 찾아봐야할 부분들**</mark>  
 <br>
 
