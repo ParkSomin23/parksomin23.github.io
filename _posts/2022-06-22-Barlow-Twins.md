@@ -1,5 +1,5 @@
 ---
-title: "Barlow Twins: Self-Supervised Learningvia Redundancy Reduction"
+title: "Barlow Twins: Self-Supervised Learning via Redundancy Reduction"
 date: 2022-06-22 22:44
 category: "논문-리뷰"
 tag: [Self-Supervised Learning, SSL, Vision]
@@ -9,7 +9,8 @@ toc: true
 toc_sticky: false
 ---
 
-> [Barlow Twins: Se;f-Supervised Learningvia Redundancy Reduction](https://arxiv.org/pdf/2103.03230.pdf)  
+> 작성 중
+> [Barlow Twins: Se;f-Supervised Learning via Redundancy Reduction](https://arxiv.org/pdf/2103.03230.pdf)  
 
 연관 포스트: 
 1. [Audio Self-supervised Learning: A Survey (1) A General Overview]({% post_url 2022-05-25-Audio-SSL-A-Survey-(1) %})  
@@ -103,9 +104,40 @@ $$
 <br/>
 
 ## 2) Implementation Details
-
-
+### (1) Image Augmentation
+- 각 input image는 2번 transformation 수행
+- 항상 : random cropping, 224 $\times$ 224 resizing
+- 랜덤 : horizontal flipping, color jittering, convert to grayscale, Gaussian blurring, solarization(과노출로 반전)
+- 뒤 2개의 확률은 다름
+- BYOL 논문과 똑같은 augmentation parameter 사용  
 <br/>
+
+### (2) Architecture
+- encoder: ResNet-50 (final classification layer 없이 2048 output)
+- projector network
+    - 3 linear layer
+    - 모두 8192 output units 
+    - layer 사이에 Batch Normalization layer와 ReLU 사용
+- **input** $\quad=$ encoder $\Rightarrow\quad$ **representation** $\quad=$ projector $\Rightarrow\quad$ **embedding**
+- embedding은 downstream task에 사용하고, embedding은 loss 계산에 사용  
+<br/>
+
+### (3) Optimization
+- | 방법 | 내용 |  
+  |:---:|:---:|  
+  |**epoch**|1000|
+  |**batch size**|2048 (256~)|
+  |**optimizer**| LARS|
+  |**learning rate**|weight: $0.2 \times (batch\_size/256)$<br/>bias & batch norm: $0.0048 \times (batch\_size/256)$|  
+  |**weight decay**| $1.5\times 10^{-6}$|  
+  |**linear warmup**| for 10 epochs|  
+  |**scheduler**| cosine decay, factor 1000|  
+  |**trade off parameter**|$\lambda=5\times 10^{-3}$|
+  |**기타**|bias와 batch norm parameters은 LARS adaptation과 weight decay에서 제외됨|
+<br/>
+
+# 3. Results
+**\<Linear and Semi-Supervised Evaluation on ImageNet>**
 
 # Appendix A
 <br/>
