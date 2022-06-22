@@ -132,7 +132,7 @@ $$
 |**weight decay**| $1.5\times 10^{-6}$|  
 |**linear warmup**| for 10 epochs|  
 |**scheduler**| cosine decay, factor 1000|  
-|**trade off parameter**|$\lambda=5\times 10^{-3}$|
+|**trade off parameter**|$\lambda=5\times 10^{-3}$|  
 |**기타**|bias와 batch norm parameters은 LARS adaptation과 weight decay에서 제외됨|
 <br/>
 
