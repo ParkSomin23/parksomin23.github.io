@@ -186,7 +186,7 @@ $$
 - (d): normalize along feature dimension(unit sphere) $\Rightarrow$ slightly reduced
     - embedding을 batch dimension으로 normalize(with mean subtraction)  
     $\Rightarrow$ embedding을 feature dimension으로 normalize(without mean subtraction)  
-    $\Rightarrow \quad \cancel{\text{normalized cross-correlation}} \rightarrow \text{unnormalized covariance matrix}$  
+    $\Rightarrow {\text{normalized cross-correlation 아닌}} \rightarrow \text{unnormalized covariance matrix}$  
 - (e): projector network에서 batch normalization 제거 $\Rightarrow$ barely affected
 - (f): (e) + loss의 cross-**correlated** matrix를 cross-**covariance** matrix로 바꿈(batch 축으로 noramlize 안 함) $\Rightarrow$ substainally reduced  
 <br/>
@@ -272,13 +272,14 @@ $$
     -  distorted된 data를 twin network에 넣어도 embedding이 invariant하게, 학습된 embedding에 대해서는 variability가 maximized하는 것이 목표
     - 위의 variability에 대한 측정이 batch statistics에 의존
 - 차이점  
-|InfoNCE|Barlow Twins|
-|:---:|:---:|
-|sample들의 모든 pair에 대한 **pairwise distance**를 최대화하므로써 embedding variability 최대화|embedding vector **decorrelation**을 통해 embedding variability 최대화|
-|**non-parametric estimation** of the **entropy** of the distribution of embeddings<br/>- prone to the curse of the dimensionality<br/>- require a large number of samples|**_proxy_ entropy estimator** of the distribution of embeddings under a **Gaussian parameterization**(Appendix A)<br/>- simplification $\rightarrow$ fewer samples, very large dimensional embeddings|
-|normalized along the **feature** dimension(cosine similarity)|normalized along the **batch** dimension|
-|trade off parameter 없음|trade off parameter $\lambda$ 있음(Appendix A)|
-|hyperparameter $\tau$ 있음<br/>- non-parametric kernel density estimation의 kernel width로 해석 가능<br/>- batch 안의 hardest negative sample에 대한 상대적인 중요도의 weight 값| - |
+
+|InfoNCE|Barlow Twins|  
+|:---:|:---:|  
+|sample들의 모든 pair에 대한 **pairwise distance**를 최대화하므로써 embedding variability 최대화|embedding vector **decorrelation**을 통해 embedding variability 최대화|  
+|**non-parametric estimation** of the **entropy** of the distribution of embeddings<br/>- prone to the curse of the dimensionality<br/>- require a large number of samples|**_proxy_ entropy estimator** of the distribution of embeddings under a **Gaussian parameterization**(Appendix A)<br/>- simplification $\rightarrow$ fewer samples, very large dimensional embeddings|  
+|normalized along the **feature** dimension(cosine similarity)|normalized along the **batch** dimension|  
+|trade off parameter 없음|trade off parameter $\lambda$ 있음(Appendix A)|  
+|hyperparameter $\tau$ 있음<br/>- non-parametric kernel density estimation의 kernel width로 해석 가능<br/>- batch 안의 hardest negative sample에 대한 상대적인 중요도의 weight 값| - |  
 
 - Diff with MoCo
     - MoCo 
