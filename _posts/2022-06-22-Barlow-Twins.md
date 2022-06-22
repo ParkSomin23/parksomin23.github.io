@@ -122,7 +122,8 @@ $$
 - embedding은 downstream task에 사용하고, embedding은 loss 계산에 사용  
 <br/>
 
-### (3) Optimization 
+### (3) Optimization  
+
 | 방법 | 내용 |  
 |:---:|:---:|  
 |**epoch**|1000|  
