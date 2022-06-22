@@ -271,7 +271,7 @@ $$
 - 공통점
     -  distorted된 data를 twin network에 넣어도 embedding이 invariant하게, 학습된 embedding에 대해서는 variability가 maximized하는 것이 목표
     - 위의 variability에 대한 측정이 batch statistics에 의존
-- 차이점
+- 차이점  
 |InfoNCE|Barlow Twins|
 |:---:|:---:|
 |sample들의 모든 pair에 대한 **pairwise distance**를 최대화하므로써 embedding variability 최대화|embedding vector **decorrelation**을 통해 embedding variability 최대화|
