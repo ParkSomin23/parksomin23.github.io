@@ -125,15 +125,16 @@ $$
 ### (3) Optimization 
 | 방법 | 내용 |  
 |:---:|:---:|  
-|**epoch**|1000|
-|**batch size**|2048 (256~)|
-|**optimizer**| LARS|
+|**epoch**|1000|  
+|**batch size**|2048 (256~)|  
+|**optimizer**| LARS|  
 |**learning rate**|weight: $0.2 \times (batch\_size/256)$<br/>bias & batch norm: $0.0048 \times (batch\_size/256)$|  
 |**weight decay**| $1.5\times 10^{-6}$|  
 |**linear warmup**| for 10 epochs|  
 |**scheduler**| cosine decay, factor 1000|  
 |**trade off parameter**|$\lambda=5\times 10^{-3}$|  
-|**기타**|bias와 batch norm parameters은 LARS adaptation과 weight decay에서 제외됨|
+|**기타**|bias와 batch norm parameters은 LARS adaptation과 weight decay에서 제외됨|  
+
 <br/>
 
 # 3. Results
