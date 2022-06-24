@@ -9,8 +9,7 @@ toc: true
 toc_sticky: false
 ---
 
-> 작성 중
-> [Barlow Twins: Se;f-Supervised Learning via Redundancy Reduction](https://arxiv.org/pdf/2103.03230.pdf)  
+> [Barlow Twins: Self-Supervised Learning via Redundancy Reduction](https://arxiv.org/pdf/2103.03230.pdf)  
 
 연관 포스트: 
 1. [Audio Self-supervised Learning: A Survey (1) A General Overview]({% post_url 2022-05-25-Audio-SSL-A-Survey-(1) %})  
