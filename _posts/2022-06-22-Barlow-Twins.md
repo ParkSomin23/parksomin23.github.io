@@ -2,7 +2,7 @@
 title: "Barlow Twins: Self-Supervised Learning via Redundancy Reduction"
 date: 2022-06-22 18:12
 category: "논문-리뷰"
-tag: [Self-Supervised Learning, SSL, Vision]
+tag: [Self-Supervised Learning, Vision]
 
 published: true
 toc: true

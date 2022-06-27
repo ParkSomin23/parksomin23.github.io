@@ -5,7 +5,7 @@ title: "Audio Self-supervised Learning: A Survey (1) A General Overview"
 date: 2022-05-25 20:08
 #background: 
 category: "논문-리뷰"
-tag: [Self-Supervised Learning, SSL]
+tag: [Self-Supervised Learning]
 #classes: wide
 published: true
 
