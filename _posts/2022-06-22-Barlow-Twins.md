@@ -45,8 +45,8 @@ toc_sticky: false
         'stop-gradient'가 문제 해결에 필수  
         <br/>
 - **Barlow Twins with _Redundanct-Reduction_**
-    - Barlow의 _Possible Princiles Undelyding the tTransoration of Sensory Messages_에서 나온 개념
-    - sensory processing은 high-redundant sensoty input을 fatorial code로 recoding하는 것
+    - Barlow의 _Possible Principles Underlying the Transportation of Sensory Messages_에서 나온 개념
+    - sensory processing은 high-redundant sensory input을 fatorial code로 recoding하는 것
     - factorial code: 통계적으로 독립된 구성 요소로 이루어진 code
     - twin embeddings으로 만든 cross-correlation matrix를 identity matrix과 가깝도록 object function 구성
     - 큰 batch, 비대칭적인 구조(prediction network, momentum encoder, non-differentiable operators, stop-gradient) 필요 없음
