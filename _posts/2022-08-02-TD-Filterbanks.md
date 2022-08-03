@@ -14,8 +14,7 @@ use_math: true
 
 논문: [Learning Filterbanks From Raw Speech For Phone Recognition](https://arxiv.org/pdf/1711.01161.pdf)  
 연관 포스트: 
-1. (예정)[wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations]
-2. (예정)[Categorical Reparameterization With Gumbel-Softmax]
+1. [wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations]({% post_url 2022-08-03-Wav2Vec-network %})
 
 > **Abstract**
 > 1. bank of complex filters를 학습하여 end-to-end phone recognition
