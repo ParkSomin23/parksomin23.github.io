@@ -4,7 +4,7 @@ title: "Self-Supervised Learning 개요"
 #subtitle: "[Tips]"
 date: 2022-05-25 14:22
 category: "논문-리뷰" 
-tag: [Self-Supervised Learning, SSL]
+tag: [Self-Supervised Learning]
 #classes: wide
 published: true
 

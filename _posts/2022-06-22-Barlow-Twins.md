@@ -2,15 +2,14 @@
 title: "Barlow Twins: Self-Supervised Learning via Redundancy Reduction"
 date: 2022-06-22 18:12
 category: "논문-리뷰"
-tag: [Self-Supervised Learning, SSL, Vision]
+tag: [Self-Supervised Learning, Vision]
 
 published: true
 toc: true
 toc_sticky: false
 ---
 
-> 작성 중
-> [Barlow Twins: Se;f-Supervised Learning via Redundancy Reduction](https://arxiv.org/pdf/2103.03230.pdf)  
+> [Barlow Twins: Self-Supervised Learning via Redundancy Reduction](https://arxiv.org/pdf/2103.03230.pdf)  
 
 연관 포스트: 
 1. [Audio Self-supervised Learning: A Survey (1) A General Overview]({% post_url 2022-05-25-Audio-SSL-A-Survey-(1) %})  
@@ -46,8 +45,8 @@ toc_sticky: false
         'stop-gradient'가 문제 해결에 필수  
         <br/>
 - **Barlow Twins with _Redundanct-Reduction_**
-    - Barlow의 _Possible Princiles Undelyding the tTransoration of Sensory Messages_에서 나온 개념
-    - sensory processing은 high-redundant sensoty input을 fatorial code로 recoding하는 것
+    - Barlow의 _Possible Principles Underlying the Transportation of Sensory Messages_ 에서 나온 개념
+    - sensory processing은 high-redundant sensory input을 fatorial code로 recoding하는 것
     - factorial code: 통계적으로 독립된 구성 요소로 이루어진 code
     - twin embeddings으로 만든 cross-correlation matrix를 identity matrix과 가깝도록 object function 구성
     - 큰 batch, 비대칭적인 구조(prediction network, momentum encoder, non-differentiable operators, stop-gradient) 필요 없음
