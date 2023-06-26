@@ -1,4 +1,15 @@
-# PYTORCH
+---
+#layout: posts
+title: "PYTORCH Memos"
+date: 2023-06-26 13:18
+category: "메모"
+tag: ["pytorch"]
+published: true
+toc: true
+toc_sticky: false
+---
+
+# PYTORCH Memos
 
 ## **Tensor vs tensor**
 - Tensor: class <br>
