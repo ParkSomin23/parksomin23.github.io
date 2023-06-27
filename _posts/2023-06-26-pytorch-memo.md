@@ -30,10 +30,11 @@ memory copy
 - [[개발팁] torch.nn 과 torch.nn.functional 어느 것을 써야 하나?](https://cvml.tistory.com/10)
     
 ## **matmul**
-| dot | 벡터 X 벡터 | - |
-| :---: | :---: | :---: |
-| mm | 행렬 X 행렬 | broadcasting 지원 안 됨 |
-| matmul | 행렬 X 행렬 , 행렬 X 벡터 | broadcasting 지원됨 |
+
+- | dot | 벡터 X 벡터 | 내용 |
+  |:---: | :---: | :---: |
+  | mm | 행렬 X 행렬 | broadcasting 지원 안 됨 |
+  | matmul | 행렬 X 행렬 , 행렬 X 벡터 | broadcasting 지원됨 |
 
 ## **view vs reshape**
     
