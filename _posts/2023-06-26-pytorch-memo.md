@@ -2,7 +2,7 @@
 #layout: posts
 title: "PYTORCH Memos"
 date: 2023-06-26 13:18
-category: "메모"
+category: "정리함"
 tag: ["pytorch"]
 published: true
 toc: true

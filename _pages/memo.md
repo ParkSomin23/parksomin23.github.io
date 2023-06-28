@@ -1,7 +1,7 @@
 ---
-title: "메모"
-permalink: /categories/메모/
+title: "정리함"
+permalink: /categories/정리함/
 layout: category
 author_profile: true
-taxonomy: 메모
+taxonomy: 정리함
 ---
