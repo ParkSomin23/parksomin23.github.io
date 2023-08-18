@@ -10,7 +10,7 @@ tag: [Self-Supervised Learning]
 published: true
 
 toc: true
-toc_sticky: false
+toc_sticky: true
 ---
 
 > **[Self-supervised learning: The dark matter of intelligence - META AI (FACEBOOK)](https://ai.facebook.com/blog/self-supervised-learning-the-dark-matter-of-intelligence/) blog post 정리**  

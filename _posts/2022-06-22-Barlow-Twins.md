@@ -6,7 +6,7 @@ tag: [Self-Supervised Learning, Vision]
 
 published: true
 toc: true
-toc_sticky: false
+toc_sticky: true
 ---
 
 > [Barlow Twins: Self-Supervised Learning via Redundancy Reduction](https://arxiv.org/pdf/2103.03230.pdf)  

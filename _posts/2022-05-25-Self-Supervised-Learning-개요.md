@@ -9,7 +9,7 @@ tag: [Self-Supervised Learning]
 published: true
 
 toc: true
-toc_sticky: false
+toc_sticky: true
 ---
 
 # 1. What is Self-Supervised Learning?

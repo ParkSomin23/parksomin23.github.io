@@ -16,7 +16,7 @@ minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt"
 
 # Site Settings
 locale                   : "en-US"
-title                    : "계속 수정 중"
+title                    : "Keep On"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "Somin Park"
@@ -104,9 +104,9 @@ analytics:
 author:
   name             : "Somin Park"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "오디오 관련 AI 석사 수료생의 개인적인 정리 노트"
+  bio              : "Machine Learning 석사 수료/졸업예정의 개인적인 정리 노트. 틀린 부분이 있으면 아래 이메일로 연락주세요"
   location         : "Republic of Korea"
-  email            :
+  email            : "caqta0323@naver.com"
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
@@ -278,7 +278,7 @@ defaults:
       toc: true
       toc_label: "목록"
       toc_icon: "bars"
-      toc_sticky: false
+      toc_sticky: true
       sidebar:
         nav: "main"
      

@@ -10,7 +10,7 @@ tag: [Self-Supervised Learning, Audio]
 published: true
 
 toc: true
-toc_sticky: false
+toc_sticky: true
 ---
 
 논문 : [Audio Self-supervised Learning: A Survey](https://arxiv.org/abs/2203.01205)  

@@ -6,7 +6,7 @@ category: "정리함"
 tag: ["pytorch"]
 published: true
 toc: true
-toc_sticky: false
+toc_sticky: true
 ---
 
 ## **Tensor vs tensor**

@@ -7,7 +7,7 @@ tag: [Audio, Wav2Vec, Filter]
 published: true
 
 toc: true
-toc_sticky: false
+toc_sticky: true
 
 use_math: true
 ---

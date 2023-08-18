@@ -6,7 +6,7 @@ tag: [Audio, Text, Vision, Data2Vec]
 published: false
 
 toc: true
-toc_sticky: false
+toc_sticky: true
 
 use_math: true
 ---
