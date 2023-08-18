@@ -13,16 +13,16 @@ use_math: true
 논문: [Stand-Alone Self-Attention in Vision Models](https://proceedings.neurips.cc/paper_files/paper/2019/file/3416a75f4cea9109507cacd8e2f2aefc-Paper.pdf)   
 
 <p align="center">
-<img src="../논문-리뷰/assets/images/StandAlone_Self-Attention/image_00001.jpeg" width="100%">
+<img src="..//assets/images/StandAlone_Self-Attention/image_00001.jpeg" width="100%">
 </p> 
 <p align="center">
-<img src="../논문-리뷰/assets/images/StandAlone_Self-Attention/image_00002.jpeg" width="100%">
+<img src="..//assets/images/StandAlone_Self-Attention/image_00002.jpeg" width="100%">
 </p> 
 
 # Introduction
 
 <p align="center">
-<img src="../논문-리뷰/assets/images/StandAlone_Self-Attention/image_00003.jpeg" width="100%">
+<img src="..//assets/images/StandAlone_Self-Attention/image_00003.jpeg" width="100%">
 </p> 
 
 - CNN은 image recognition, object detection, image segmentation에서 좋은 성능을 보임
@@ -33,7 +33,7 @@ use_math: true
 <br><br>
 
 <p align="center">
-<img src="../논문-리뷰/assets/images/StandAlone_Self-Attention/image_00004.jpeg" width="100%">
+<img src="..//assets/images/StandAlone_Self-Attention/image_00004.jpeg" width="100%">
 </p> 
 
 - attention module을 CNN에 적용하려는 노력들이 많았음 (ex) Squeeze-Exite network, Non-local Network
@@ -49,7 +49,7 @@ use_math: true
 # Background
 
 <p align="center">
-<img src="../논문-리뷰/assets/images/StandAlone_Self-Attention/image_00005.jpeg" width="100%">
+<img src="..//assets/images/StandAlone_Self-Attention/image_00005.jpeg" width="100%">
 </p> 
 
 1. 공간 범위(spatial ectent) $k$를 가진 $(i,\ j)$을 중심으로한 local region 추출, <b>memory block</b>
@@ -62,7 +62,7 @@ use_math: true
 <br><br>
 
 <p align="center">
-<img src="../논문-리뷰/assets/images/StandAlone_Self-Attention/image_00006.jpeg" width="100%">
+<img src="..//assets/images/StandAlone_Self-Attention/image_00006.jpeg" width="100%">
 </p> 
 
 - relative positional embedding으로 positional information encoding
@@ -82,7 +82,7 @@ use_math: true
 # Fully Attentional Vision Models
 
 <p align="center">
-<img src="../논문-리뷰/assets/images/StandAlone_Self-Attention/image_00007.jpeg" width="100%">
+<img src="..//assets/images/StandAlone_Self-Attention/image_00007.jpeg" width="100%">
 </p> 
 
 - self-attention layer가 primitive layer로 implement한 방법
@@ -106,7 +106,7 @@ use_math: true
 # Experiments & Ablation Studies
 
 <p align="center">
-<img src="../논문-리뷰/assets/images/StandAlone_Self-Attention/image_00008.jpeg" width="100%">
+<img src="..//assets/images/StandAlone_Self-Attention/image_00008.jpeg" width="100%">
 </p> 
 
 - ImageNet Dataset
@@ -118,7 +118,7 @@ use_math: true
 <br><br>
 
 <p align="center">
-<img src="../논문-리뷰/assets/images/StandAlone_Self-Attention/image_00009.jpeg" width="100%">
+<img src="..//assets/images/StandAlone_Self-Attention/image_00009.jpeg" width="100%">
 </p> 
 
 - ResNet layer의 convolution과 attention 조합에 따른 결과
@@ -131,7 +131,7 @@ use_math: true
 <br><br>
 
 <p align="center">
-<img src="../논문-리뷰/assets/images/StandAlone_Self-Attention/image_00010.jpeg" width="100%">
+<img src="..//assets/images/StandAlone_Self-Attention/image_00010.jpeg" width="100%">
 </p> 
 
 - Positional information에 대한 성능 비교
@@ -146,7 +146,7 @@ use_math: true
 
 # Conclusion
 <p align="center">
-<img src="../논문-리뷰/assets/images/StandAlone_Self-Attention/image_00011.jpeg" width="100%">
+<img src="..//assets/images/StandAlone_Self-Attention/image_00011.jpeg" width="100%">
 </p> 
 
 1. content-based 상호작용은 vision model의 primary primitive으로 역할 수행 가능

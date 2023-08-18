@@ -115,9 +115,12 @@ use_math: true
 - 실제 이미지처럼 만들기 위한 loss
 - $w$는 real sample, $z$는 latent code
 - $\mathcal{L}_{adv}^D$: Discriminator loss
-    - $-\mathbb{E}_{w\sim \mathcal{W}}[log\ D_{\mathcal{W}(w)}]$: real sample $w$는 1에 가깝도록 학습 (log 1 = 0)
-    -  $-\mathbb{E}_{z}[log(1-D_{\mathcal{W}}M(z))]$: latent space $\mathcal{W}$로 mapping한 값은 $\mathcal{M}(z)$로 generated data로 discriminator는 0에 가까운 값으로 예측하도록 학습
-    - $\frac{\lambda}{2} \mathbb{E}_{w\sim \mathcal{W}} [\Vert \nabla_w D_{\mathcal{W}}(w) \Vert^2_2]$: non-saturating loss with R1 refualrization
+    - $-\mathbb{E}_{w\sim \mathcal{W}}[log\ D_{\mathcal{W}(w)}]$: <br>
+    real sample $w$는 1에 가깝도록 학습 (log 1 = 0)
+    -  $-\mathbb{E}_{z}[log(1-D_{\mathcal{W}}M(z))]$:  <br>
+    latent space $\mathcal{W}$로 mapping한 값은 $\mathcal{M}(z)$로 generated data로 discriminator는 0에 가까운 값으로 예측하도록 학습
+    - $\frac{\lambda}{2} \mathbb{E}_{w\sim \mathcal{W}} [\Vert \nabla_w D_{\mathcal{W}}(w) \Vert^2_2]$:  <br>
+    non-saturating loss with R1 refualrization
 - $\mathcal{L}_{adv}^G$: Generator loss
     - generated된 data가 real sample과 구분할 수 없어야 함
 <br><br>
