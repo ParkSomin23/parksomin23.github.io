@@ -7,7 +7,6 @@ published: true
 
 toc: true
 toc_sticky: true
-
 use_math: true
 ---
 
