@@ -13,7 +13,7 @@ env:
 jobs:
   job_install_dependencies:
     name: Install Dependencies
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 15
     steps:
       - name: Check out current commit (${{ github.sha }})
@@ -40,7 +40,7 @@ jobs:
   job_build:
     name: Build
     needs: job_install_dependencies
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 15
     steps:
       - name: Check out current commit (${{ github.sha }})
