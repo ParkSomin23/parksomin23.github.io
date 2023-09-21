@@ -14,12 +14,12 @@ use_math: true
 논문: [Unpaired Motion Style Transfer from Video to Animation](https://deepmotionediting.github.io/style_transfer)   
 
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00001.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00001.jpeg" width="100%">
 </p> 
 
 # Introduction
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00002.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00002.jpeg" width="100%">
 </p> 
 
 - style Transfer은 image style transfer부터 발전해옴
@@ -31,7 +31,7 @@ use_math: true
 
 
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00003.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00003.jpeg" width="100%">
 </p> 
 
 - 위 식으로 표현 가능
@@ -47,7 +47,7 @@ use_math: true
 
 # Dataset
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00004.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00004.jpeg" width="100%">
 </p> 
 
 - Xia & 자체 제작 dataset 사용
@@ -62,7 +62,7 @@ use_math: true
 
 # Network
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00005.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00005.jpeg" width="100%">
 </p> 
 
 - 네트워크는 총 4가지 부분으로 구성
@@ -73,7 +73,7 @@ use_math: true
 
 ## 1. Style Motion Representation Encoder
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00006.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00006.jpeg" width="100%">
 </p> 
 
 - "1차원 convolution + Leaky ReLU" $\times$ 2 + max-pooling
@@ -87,7 +87,7 @@ use_math: true
 
 ## 2. Content Motion Representation Encoder
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00007.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00007.jpeg" width="100%">
 </p> 
 
 - "1차원 convolution + instance normalization + Leaky ReLU" $\times$ 3 + residual connection
@@ -100,7 +100,7 @@ use_math: true
 
 ## 3. Motion Translator
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00008.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00008.jpeg" width="100%">
 </p> 
 
 - MLP: 144 channel의 style code가 AdaIN에 사용되는 paramter 수의 2배가 되도록 "linear layer + Leaky ReLU" $\times$ 3
@@ -112,7 +112,7 @@ use_math: true
 
 ## 4.Discriminator
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00009.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00009.jpeg" width="100%">
 </p> 
 
 - 들어온 입력값이 원래 있는 데이터인지 만들어진 데이터인지 구분하는 network
@@ -121,7 +121,7 @@ use_math: true
 
 ## Additonal Consideration
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00010.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00010.jpeg" width="100%">
 </p> 
 
 - Global Velocity Warping
@@ -136,7 +136,7 @@ use_math: true
 
 # Loss  
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00011.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00011.jpeg" width="100%">
 </p> 
 
 - 총 5개의 loss 고려됨
@@ -148,7 +148,7 @@ use_math: true
 
 ## 1. Content Consistency Loss
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00012.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00012.jpeg" width="100%">
 </p> 
 
 - 같은 sytle을 가진 data 2개 선택 
@@ -161,7 +161,7 @@ use_math: true
 
 ## 2. Adversarial Loss
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00013.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00013.jpeg" width="100%">
 </p> 
 
 - generated data를 진짜 데이터와 구분할 수 없도록 학습
@@ -173,7 +173,7 @@ use_math: true
 
 ## 3. Regression Loss
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00014.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00014.jpeg" width="100%">
 </p> 
 
 - generator 학습 안정화를 위한 loss
@@ -184,7 +184,7 @@ use_math: true
 
 ## 4. Joint Embedding Loss
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00015.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00015.jpeg" width="100%">
 </p> 
 
 - style motion representation encoder에서 2D & 3D embedding이 같은 feature vector로 mapping되도록 하는 loss
@@ -192,7 +192,7 @@ use_math: true
 
 ## 5. Style Triplet Loss
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00016.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00016.jpeg" width="100%">
 </p>
 
 - style clustering 성능 향상이 목적
@@ -201,7 +201,7 @@ use_math: true
 
 # Result
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00017.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00017.jpeg" width="100%">
 </p>
 
 - 1st row: content
@@ -211,7 +211,7 @@ use_math: true
 <br><br>
 
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00018.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00018.jpeg" width="100%">
 </p>
 
 - (a) Xia, (b) Own dataset
@@ -220,7 +220,7 @@ use_math: true
 <br><br>
 
 <p align="center">
-<img src="../assets/images/Unpaired_Motion_StyleTransfer/image_00019.jpeg" width="100%">
+<img src="images/Unpaired_Motion_StyleTransfer/image_00019.jpeg" width="100%">
 </p>
 
 - 두 개의 style code를 linear하게 interpolate해서 사용 가능
