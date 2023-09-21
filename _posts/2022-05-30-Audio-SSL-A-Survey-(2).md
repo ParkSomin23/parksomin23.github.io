@@ -45,7 +45,7 @@ toc_sticky: true
     <br/>
 3. PASE & PASE+ (The Problem Agnostic Speech Encoder)    
     <p align="center">
-    <img src="../논문-리뷰/assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/PASE.png">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/PASE.png">
     </p>  
 
     - CNN encoder 1개 + 여러개의 neural decoder(worker)
@@ -71,7 +71,7 @@ toc_sticky: true
 2. Mockingjay  
     <br/>  
     <p align="center">
-    <img src="../논문-리뷰/assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/mockingjay.png">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/mockingjay.png">
     </p>
     - Mel-Spectrogram
     - random making input을 transformer를 사용하여 coding
@@ -101,7 +101,7 @@ toc_sticky: true
 1. DAPC
     <br/>  
     <p align="center">
-    <img src="../논문-리뷰/assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/DAPC.png">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/DAPC.png">
     </p>  
 
     - time뿐만 아니라 frequency도 함께 masking
@@ -147,7 +147,7 @@ toc_sticky: true
 1. [Van den Oord CPC ver1.](https://arxiv.org/pdf/1807.03748.pdf)
     <br/>  
     <p align="center">
-    <img src="../논문-리뷰/assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/CPC.png" width="55%">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/CPC.png" width="55%">
     </p>  
 
     - CPC: auto-regresive model의 latent space를 사용해서 미래 값 예측
@@ -174,9 +174,9 @@ toc_sticky: true
 2. "Wav2Vec"s
     <br/>  
     <p align="center">
-    <img src="../논문-리뷰/assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/wav2vec1.png" width="30%">
-    <img src="../논문-리뷰/assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/VQ-Wav2Vec.png" width="26.8%">
-    <img src="../논문-리뷰/assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/wav2vec2.png" width="28.05%">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/wav2vec1.png" width="30%">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/VQ-Wav2Vec.png" width="26.8%">
+    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/wav2vec2.png" width="28.05%">
     </p>  
 
     - (a) [Wav2Vec](https://arxiv.org/pdf/1904.05862.pdf?ref=https://githubhelp.com)
@@ -204,7 +204,7 @@ toc_sticky: true
         - argmax은 back-propagation 안 됨
             <br/>  
             <p align="center">
-            <img src="../논문-리뷰/assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/VQ_argmax.png" width="50%">
+            <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/VQ_argmax.png" width="50%">
             </p>  
             - Gumbel-Softmax나 online k-means clustering 사용
             - VQ-VAE나 vector-quantized autoregressive predictive coding과 유사
