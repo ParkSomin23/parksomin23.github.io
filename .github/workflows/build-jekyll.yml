@@ -5,31 +5,61 @@ on:
     branches:
       - master  # Here source code branch is `master`, it could be other branch
 
+env:
+  CACHED_DEPENDENCY_PATHS: ${{ github.workspace }}/node_modules
+  CACHED_BUILD_PATHS: ${{ github.workspace }}/.next
+  BUILD_CACHE_KEY: ${{ github.sha }}
+
 jobs:
-  build_and_deploy:
+  job_install_dependencies:
+    name: Install Dependencies
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v3
-
-      # Use GitHub Actions' cache to cache dependencies on servers
-      - uses: actions/cache@v3
+      - name: Check out current commit (${{ github.sha }})
+        uses: actions/checkout@v2
+      - name: Set up Node
+        uses: actions/setup-node@v1
+      - name: Compute dependency cache key
+        id: compute_lockfile_hash
+        run: echo "::set-output name=hash::${{ hashFiles('package-lock.json') }}"
+      - name: Check dependency cache
+        uses: actions/cache@v2
+        id: cache_dependencies
         with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
+          path: ${{ env.CACHED_DEPENDENCY_PATHS }}
+          key: ${{ steps.compute_lockfile_hash.outputs.hash }}
+      - name: Install dependencies
+        # use '.', not '[]' with hyphenated variables
+        # https://github.com/nektos/act/issues/104#issuecomment-592892249
+        if: steps.cache_dependencies.outputs.cache-hit == ''
+        run: npm install
+    outputs:
+      dependency_cache_key: ${{ steps.compute_lockfile_hash.outputs.hash }}
 
-      # Use GitHub Deploy Action to build and deploy to Github
-      # For latest version: `jeffreytse/jekyll-deploy-action@master`
-      - uses: jeffreytse/jekyll-deploy-action@v0.5.0
+  job_build:
+    name: Build
+    needs: job_install_dependencies
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out current commit (${{ github.sha }})
+        uses: actions/checkout@v2
+      - name: Set up Node
+        uses: actions/setup-node@v1
+      - name: Check dependency cache
+        uses: actions/cache@v2
         with:
-          provider: 'github'         # Default is github
-          repository: ''             # Default is current repository
-          branch: 'gh-pages'         # Default is gh-pages for github provider
-          jekyll_src: './'           # Default is root directory
-          jekyll_cfg: '_config.yml'  # Default is _config.yml
-          jekyll_baseurl: ''         # Default is according to _config.yml
-          bundler_ver: '>=0'         # Default is latest bundler version
-          cname: ''                  # Default is to not use a cname
-          actor: ''                  # Default is the GITHUB_ACTOR
-          pre_build_commands: ''     # Installing additional dependencies (Arch Linux)
+          path: ${{ env.CACHED_DEPENDENCY_PATHS }}
+          key: ${{ needs.job_install_dependencies.outputs.dependency_cache_key }}
+      - name: Check build cache
+        uses: actions/cache@v2
+        id: cache_built_packages
+        with:
+          path: ${{ env.CACHED_BUILD_PATHS }}
+          key: ${{ env.BUILD_CACHE_KEY }}
+      - name: Build packages
+        if: steps.cache_built_packages.outputs.cache-hit == ''
+        run: npm run build
+    outputs:
+      dependency_cache_key: ${{ needs.job_install_dependencies.outputs.dependency_cache_key }}
