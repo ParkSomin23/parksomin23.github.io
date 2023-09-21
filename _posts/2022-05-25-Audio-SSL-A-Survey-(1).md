@@ -17,7 +17,7 @@ use_math: true
 ---
 
 논문 :[Audio Self-supervised Learning: A Survey](https://arxiv.org/abs/2203.01205)  
-연관 포스트: [Audio Self-supervised Learning: A Survey (2) Audio ]({% post_url 2022-05-30-Audio-SSL-A-Survey-(2) %}) 
+연관 포스트: [Audio Self-supervised Learning: A Survey (2) Audio ]({% post_url 2022-05-30-Audio-SSL-A-Survey-2 %}) 
 
 
 # A) Views Generation
