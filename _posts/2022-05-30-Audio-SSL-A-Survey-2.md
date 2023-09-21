@@ -18,7 +18,6 @@ toc_sticky: true
 분류 방식은 논문에는 Contrastive Model 중에서 Auto-Encoding/Siamese/Clusetering 그리고 Contrastive Model로만 분류가 되어 있습니다.  
 세부적인 분류는 "Audio Self-supervised Learning: A Survey" 설명만 읽고 임의로 분류했기에 분류가 틀릴 수도 있습니다.
 
-<mark style='background-color: #A0BCC2'>**더 찾아봐야할 부분들**</mark>  
 <br>
 
 # 1. Predictive Models
@@ -34,14 +33,14 @@ toc_sticky: true
       | explicit한 도움 필요 없음  <br/> (supervision한 부분 완전 제거) | 각 단어에 맞는 audio slice segmentation을 위한  <br/> explicit forced alignment technique 사용|
       | CNN 기반 | RNN 기반 |
       | MFCC | Mel-spectrogram |
-      | <mark style='background-color: #A0BCC2'>TemporalGap</mark> <br/> (같은 audio clip 내에 random하게  <br/> sampled된 data 사이의 시간 차이 예측) | - |  
+      | TemporalGap <br/> (같은 audio clip 내에 random하게  <br/> sampled된 data 사이의 시간 차이 예측) | - |  
 
     - TemporalGap이 CBoW나 Skip-gram보다 더 좋은 결과를 내진 않았지만, pretext task를 상대적인 시간 측정이라는 새로운 관점 제시  
     <br/>
 2. Carr et al.
     - audio patch suffle >> 다시 순서를 맞추는 방법 (permutation & jigsaw puzzle)
     - "Shuffle and Learn" 논문에서 아이디어 얻음 (audio classification 관련 논문)
-    - <mark style='background-color: #A0BCC2'>end-to-end 학습을 위해 재정렬하는 방식을 개선: differential ranking(어떤 건지 확인 더 필요)<mark/>  
+    - end-to-end 학습을 위해 재정렬하는 방식을 개선: differential ranking(어떤 건지 확인 더 필요)
     <br/>
 3. PASE & PASE+ (The Problem Agnostic Speech Encoder)    
     <p align="center">
@@ -129,11 +128,11 @@ toc_sticky: true
     - patch에 data augmentation 
         - random size cropping
         - Gaussian noise addition
-        - <mark style='background-color: #A0BCC2'>mix-back (incoming patch + background patch)</mark>  
+        - mix-back (incoming patch + background patch)
     <br/>
 3. CLAR
     - raw waveform이랑 time-frequency feature에 data augmentation 
-    - <mark style='background-color: #A0BCC2'>다양한 augmentation에 대한 연구 진행</mark>
+    - 다양한 augmentation에 대한 연구 진행
     - 상당히 적은 수의 labelled data를 사용하여 contrastive loss를 결합하면 SSL만 사용했을 때보다 수렴 속도, representation effectiveness의 개선이 있었음  
     - [CLAR 정리]({% post_url 2022-06-15-CLAR %})  
     <br/>
