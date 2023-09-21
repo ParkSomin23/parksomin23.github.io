@@ -41,7 +41,7 @@ toc_sticky: true
 <br>
 
 <p align="center">
-<img src = "./assets/images/2022-05-31-META-AI-Self-Supervised-Learning/LeCun_predictive.png">
+<img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/LeCun_predictive.png">
 </p>
 <br>
 
@@ -55,8 +55,8 @@ toc_sticky: true
 
 # 3. Self-Supervised Learning for LANGUAGE vs VISION <br> and Modeling the Uncertainty in Prediction
 <p align="center">
-<img src = "./assets/images/2022-05-31-META-AI-Self-Supervised-Learning/uncertainty.png" width="38.6%">
-<img src = "./assets/images/2022-05-31-META-AI-Self-Supervised-Learning/constrastive.png" width="45%">
+<img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/uncertainty.png" width="38.6%">
+<img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/constrastive.png" width="45%">
 </p>
 <br>
 
@@ -77,7 +77,7 @@ toc_sticky: true
 
 # 4. A Unified View of Self-Supervised Methods
 <p align="center">
-<img src = "./assets/images/2022-05-31-META-AI-Self-Supervised-Learning/EBM_concept.png" width="40%">
+<img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/EBM_concept.png" width="40%">
 <img src = "https://scontent-gmp1-1.xx.fbcdn.net/v/t39.2365-6/127784209_262471582050413_7179678990272222350_n.gif?_nc_cat=104&ccb=1-7&_nc_sid=ad8a9d&_nc_ohc=5-lrqUMl0EsAX--eKwY&_nc_ht=scontent-gmp1-1.xx&oh=00_AT9jks-ZrvSeIbiWi5VC6sDTGzVgj1RuVSGUSnQRj0_BOw&oe=629B4347" width="43%">
 </p>
 <br>
@@ -96,7 +96,7 @@ toc_sticky: true
 
 <br>
 <p align="center">
-<img src = "./assets/images/2022-05-31-META-AI-Self-Supervised-Learning/siamese.png" width="25%">
+<img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/siamese.png" width="25%">
 <em><br>w: share same parameters <br> function C: produce a scalar energy, measures the distance</em>
 </p>
 
@@ -111,7 +111,7 @@ toc_sticky: true
 
 <br>
 <p align="center">
-<img src = "./assets/images/2022-05-31-META-AI-Self-Supervised-Learning/contrastive_2.jpeg" width="35%">
+<img src = "../assets/images/2022-05-31-META-AI-Self-Supervised-Learning/contrastive_2.jpeg" width="35%">
 </p>
 
 - 기존 NLP 접근 방법은 주어진 input에 대해 단 하나의 prediction만 나옴 >> 이미지에 적용할 수 없는 이유
