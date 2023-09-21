@@ -6,7 +6,6 @@ date: 2022-06-02 18:44
 #background: 
 catgoery: "논문-리뷰"
 tag: [Self-Supervised Learning, Audio]
-#classes: wide
 published: true
 
 toc: true
