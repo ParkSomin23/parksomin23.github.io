@@ -15,7 +15,7 @@ use_math: true
 논문: [wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations](https://arxiv.org/pdf/2006.11477.pdf)  
 연관 포스트: 
 1. [Learning Filterbanks From Raw Speech For Phone Recognition]({% post_url 2022-08-02-TD-Filterbanks %})
-2. [Audio Self-supervised Learning: A Survey (2) Audio ]({% post_url 2022-05-30-Audio-SSL-A-Survey-(2) %})  
+2. [Audio Self-supervised Learning: A Survey (2) Audio ]({% post_url 2022-05-30-Audio-SSL-A-Survey-2 %})  
 
 > **Abstract**
 > 1. latent space fraure들을 masking하고 quantized latent representations과 contrastive task로 학습시킴
