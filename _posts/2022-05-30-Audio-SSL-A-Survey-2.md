@@ -12,6 +12,7 @@ toc: true
 toc_sticky: true
 ---
 
+
 논문 : [Audio Self-supervised Learning: A Survey](https://arxiv.org/abs/2203.01205)  
 연관 포스트: [Audio Self-supervised Learning: A Survey (1) A General Overview ]({% post_url 2022-05-25-Audio-SSL-A-Survey-(1) %}) 
 
@@ -30,21 +31,24 @@ toc_sticky: true
     - Skip-gram은 주어진 frame으로 이전과 이후 frame 예측
     - | **Audio2Vec** | **Speech2Vec** |
       | :---: | :---: |
-      | explicit한 도움 필요 없음  <br/> (supervision한 부분 완전 제거) | 각 단어에 맞는 audio slice segmentation을 위한  <br/> explicit forced alignment technique 사용|
+      | explicit한 도움 필요 없음  <br> (supervision한 부분 완전 제거) | 각 단어에 맞는 audio slice segmentation을 위한  <br> explicit forced alignment technique 사용|
       | CNN 기반 | RNN 기반 |
       | MFCC | Mel-spectrogram |
-      | TemporalGap <br/> (같은 audio clip 내에 random하게  <br/> sampled된 data 사이의 시간 차이 예측) | - |  
+      | TemporalGap <br> (같은 audio clip 내에 random하게  <br> sampled된 data 사이의 시간 차이 예측) | - |  
 
     - TemporalGap이 CBoW나 Skip-gram보다 더 좋은 결과를 내진 않았지만, pretext task를 상대적인 시간 측정이라는 새로운 관점 제시  
-    <br/>
+    <br>
+    
 2. Carr et al.
     - audio patch suffle >> 다시 순서를 맞추는 방법 (permutation & jigsaw puzzle)
     - "Shuffle and Learn" 논문에서 아이디어 얻음 (audio classification 관련 논문)
     - end-to-end 학습을 위해 재정렬하는 방식을 개선: differential ranking(어떤 건지 확인 더 필요)
-    <br/>
+    <br><br>
+
 3. PASE & PASE+ (The Problem Agnostic Speech Encoder)    
+
     <p align="center">
-    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/PASE.png">
+    <img src="../논문-리뷰/assets/images/AudioSSL2/pase.png">
     </p>  
 
     - CNN encoder 1개 + 여러개의 neural decoder(worker)
@@ -57,7 +61,7 @@ toc_sticky: true
         - data augmentation
         - more efficient workers
         - [Quasi-RNN(QRNN)](https://arxiv.org/pdf/1611.01576.pdf): long-term dependencies capture에 더 효과적
-<br/>
+    <br>
 
 ### **b) Auto-regressive Predictive Coding (APC)**
 
@@ -65,26 +69,26 @@ toc_sticky: true
 1. Masked Acoustic Model (MAM)
     - audio input의 일부분을 masking한 후, 전체 input reconsturct
     - reconstruction error 최소화  
-    <br/>
+    <br>
 
 2. Mockingjay  
-    <br/>  
+    <br>  
     <p align="center">
-    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/mockingjay.png">
+    <img src="../논문-리뷰/assets/images/AudioSSL2/mockingjay.png">
     </p>
     - Mel-Spectrogram
     - random making input을 transformer를 사용하여 coding
     - projection(2 layer MLP + layer normalization)한 후에 frame 예측에 사용 
     - transformer와 projection layer은 동시에 L1 reconstruction loss 최소화
     - transformer의 self-attention의 효과에 대한 연구와 visualization tool 제작   
-<br/>
+<br>
 
 3. Audio ALBERT
     - Mockingjay와 똑같은 구조
     - transformer encoder layer parameter 값 동유
         - 빠른 추리(inference), 빠른 학습 속도
         - performance 유지: speaker classificaion과 phoneme(음소: ㄱ,ㄴ,ㄷ,ㅏ,ㅓ,ㅗ ...) classificaion   
-    <br/>
+    <br>
 
 4. [TERA (Transformer Encoder Representations from Alteration)](https://arxiv.org/pdf/2007.06028.pdf)   
     - continuous >> randomness segments
@@ -93,14 +97,14 @@ toc_sticky: true
     - 2.Mockingjay와 3.Audio ALBERT보다 좋은 결과
         - performance 향상: speaker classificaion, phoneme classificaion, keyword spotting
         - ASR task에서 기대해 볼 만한 성능: Librispeech, TIMIT dataset  
-    <br/>
+    <br>
 
 
 ### **d) Non-Auto-regressive Predictive Coding (NPC)**
 1. DAPC
-    <br/>  
+    <br>  
     <p align="center">
-    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/DAPC.png">
+    <img src="../논문-리뷰/assets/images/AudioSSL2/dapc.png">
     </p>  
 
     - time뿐만 아니라 frequency도 함께 masking
@@ -108,45 +112,46 @@ toc_sticky: true
     - CBoW의 확장
     - SpecAugment로 쉽게 만들 수 있음 
 
-<br/>
+<br>
 
 ## 2) Siamese
 ### **a) BYOL**
 1. BYOL-A
     - 하나의 audio로 negative한 sample 없이 학습
     - log mel-filterbank  
-<br/>
+<br>
 
 # 2. Contrastive Models
 ## **a) SimCLR approch**
 1. LIM Model
     - raw waveform 사용
     - 같은 utterance에서 나온 chunk들의 encoded representation 최대화  
-    <br/>
+    <br>
 2. COLA & Fonseca et al. 
     - time-frequency(spectrogram 형태) feature에서 시간(temporal) 축으로 positive sampling
     - patch에 data augmentation 
         - random size cropping
         - Gaussian noise addition
         - mix-back (incoming patch + background patch)
-    <br/>
+    <br>
 3. CLAR
     - raw waveform이랑 time-frequency feature에 data augmentation 
     - 다양한 augmentation에 대한 연구 진행
     - 상당히 적은 수의 labelled data를 사용하여 contrastive loss를 결합하면 SSL만 사용했을 때보다 수렴 속도, representation effectiveness의 개선이 있었음  
     - [CLAR 정리]({% post_url 2022-06-15-CLAR %})  
-    <br/>
+    <br>
 
 4. Wang
     - raw waveform과 spectral representation 사이의 호응(agreement) 최대화
     - Audioset, ESC-50 downstream task에 효과적  
-    <br/>
+    <br>
 
 # 3. Contrastive Predictive Coding (CPC)
 1. [Van den Oord CPC ver1.](https://arxiv.org/pdf/1807.03748.pdf)
-    <br/>  
+    <br>
+
     <p align="center">
-    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/CPC.png" width="55%">
+    <img src="../논문-리뷰/assets/images/AudioSSL2/cpc.png" width="55%">
     </p>  
 
     - CPC: auto-regresive model의 latent space를 사용해서 미래 값 예측
@@ -171,11 +176,12 @@ toc_sticky: true
     
 
 2. "Wav2Vec"s
-    <br/>  
+    <br>
+
     <p align="center">
-    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/wav2vec1.png" width="30%">
-    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/VQ-Wav2Vec.png" width="26.8%">
-    <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/wav2vec2.png" width="28.05%">
+    <img src="../논문-리뷰/assets/images/AudioSSL2/wav2vec1.png" width="30%">
+    <img src="../논문-리뷰/assets/images/AudioSSL2/vq-Wav2Vec.png" width="26.8%">
+    <img src="../논문-리뷰/assets/images/AudioSSL2/wav2vec2.png" width="28.05%">
     </p>  
 
     - (a) [Wav2Vec](https://arxiv.org/pdf/1904.05862.pdf?ref=https://githubhelp.com)
@@ -201,9 +207,9 @@ toc_sticky: true
         - audio representation 이산화하기 위해 wav2vec encoder 다음에 quantisation moodule 추가
             - 고정된 크기의 codebook $e \in \mathbb{R}^{V \times d}$ 에 있는 것과 가장 유사한 representation 찾기 (V representation with of size d)
         - argmax은 back-propagation 안 됨
-            <br/>  
+            <br>  
             <p align="center">
-            <img src="../assets/images/Audio-Self-supervised-Learning-A-Survey-(2)/VQ_argmax.png" width="50%">
+            <img src="../논문-리뷰/assets/images/AudioSSL2/vq-argmax.png" width="50%">
             </p>  
             - Gumbel-Softmax나 online k-means clustering 사용
             - VQ-VAE나 vector-quantized autoregressive predictive coding과 유사
@@ -244,6 +250,4 @@ toc_sticky: true
             $$
         - 현재 SOTA
         - speech recognition task를 위해서는 pre-training과 testing 조건을 잘 맞춰야함
-        - 다양한 domain의 data 학습하는 것이 generalization에 도움됨 
-
-
+        - 다양한 domain의 data 학습하는 것이 generalization에 도움됨
