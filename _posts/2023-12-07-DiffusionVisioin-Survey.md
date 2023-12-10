@@ -16,12 +16,12 @@ use_math: true
 
 # 1. Diffusion model 개요
 - deep generative model의 종류로 2개의 stage으로 구성됨
-    1) Forward Diffusion stage<br>
+    1. Forward Diffusion stage<br>
         <span style='background-color:#fff5b1'>Adding noise</span>, 단계적으로 Gaussian noise를 더하여 서서히 input 이미지를 왜곡시킴(perturbed)
-    2) Reverse (Backward) diffusion stage<br>
+    2. Reverse (Backward) diffusion stage<br>
         <span style='background-color:#fff5b1'>Denoising</span>, diffusion 과정을 역순으로 하는 단계로, diffused (noisy) data를 사용하여 원본 input 이미지를 복원하는 단계로, generative model을 학습함
 - diffusion model 종류
-    1) **denoising diffusion probabilistic models (DDPMs)**
+    1. **denoising diffusion probabilistic models (DDPMs)**
         - non-equilibrium thermodynamics 이론이 바탕
         - latent variables를 사용하여 확률 분포를 추정하는 latent variable models
         - variational auto-encoders (VAEs)의 특별한 한 종류로 생각할 수 있음
@@ -31,10 +31,10 @@ use_math: true
             | encoding | forward diffusion |
             | decoding | reverse diffusion |
 
-    2) **noise conditioned score networks (NCSNs)**
+    2. **noise conditioned score networks (NCSNs)**
         - 다양한 noise level에서의 왜곡된(perturbed) 데이터의 분포에 대한 score function을 추정하는 neural network 학습, 이는 score matching 방법으로 구함
         - score function 정의는 the gradient of the log density
-    3) **Stochastic differential equations (SDEs)**
+    3. **Stochastic differential equations (SDEs)**
         - DDPMs과 NCSNs의 일반화된 방법
 
 # 2. Framework 설명
@@ -42,164 +42,189 @@ use_math: true
     <img src="../assets/images/DiffusionVision-Survey/img_01.jpeg" width="80%">
 </p>
 
-## Framework
+## 2.1. Framework
 - diffusion model은 probabilistic generative model의 한 종류
 - 학습 데이터를 점진적으로 손상시키는(degrage) 과정에 대한 반대 과정을 학습함<br>
     즉, 손상된 이미지를 원래 이미지로 복원하는 방법을 학습
 - 학습 과정 시에 2가지 process 사용: forward diffusion process, backward denoising process
-    1) **forward diffusion process**
+    1. **forward diffusion process**
         - 학습 데이터에 noise를 더해가여 최종적으로 순수한 Gaussian noise를 만드는 과정 
         - 이 과정은 소량의 noise를 몇 단계에 거쳐 더하며, 각 단계에서의 noise의 크기는 달라짐
-    2) **backward denoising process**
+    2. **backward denoising process**
         - forward diffusion process를 단계에 거쳐 반대로 하는 과정
         - noise를 순서대로 제거하며 원래 이미지를 다시 만드는 과정으로, <span style='background-color:#fff5b1'>neural network를 학습시켜 각 단계에서 제거할 noise를 추정</span>
         - 차원 보존을 위해 U-Net 구조를 많이 사용
-    3) **inference**
+    3. **inference**
         - random white noise를 backward denoising process의 input으로 사용
 
-## DDPMs
-- denoising diffusion probabilistic models
-1) **forward diffusion process**
+## 2.2. DDPMs
+denoising diffusion probabilistic models
+1. **forward diffusion process**
     - $p(x_0)$: original data(index 0)의 data density, $\quad x_0 \sim p(x_0)$: uncorrupted training sample
     - $x_1, x_2, \cdots, x_T$: 아래 Markovian 과정에 의해 만들어진 noised version들
+
         $$p(x_t|x_{t-1}) = \mathcal{N}(x_t;\ \sqrt{1-\beta_t}\cdot x_{t-1},\ \beta_t\cdot I), \forall t \in \{1, \cdots, T\}$$
+
         - $T$: diffusion steps
         - $\beta_1, \cdots, \beta_T \in [0,\ 1]$: hyperparameters for variance schedule across diffusion steps 
         - $I$: input 이미지 $x_0$와 같은 차원의 identity matrix
         - $\mathcal{N}(x; \mu, \sigma)$: $x$를 생성하는 평균 $\mu$와 공분산 $\sigma$의 정규 분포
-    - 위 수식이 재귀적이기에 **균일 분포 ($i.e.\ \forall t \sim \mathcal{U}(\{1, \cdots, T\})$) 에서 $t$를 선택하면 $x_t$를 바로 구할 수 있음 (direct sampling)**
+    - 위 수식이 재귀적이기에 균일 분포 (i.e. $\forall t \sim \mathcal{U}(\{1, \cdots, T\})$) 에서 $t$를 선택하면 $x_t$를 바로 구할 수 있음 (direct sampling)
+
         $$p(x_t|x_0) = \mathcal{N}(x_t;\ \sqrt{\hat{\beta_t}}\cdot x_0,\ (1-\hat{\beta_t})\cdot I)$$
+
         $$\alpha_t = 1 - \beta_t \quad \hat\beta_t=\Pi_{i=1}^t \alpha_i$$
-        - **variance schedule $\beta_t$를 고정하고, 원본 이미지 $x_0$를 알면 $x_t$를 바로 구할 수 있음**
-    - backpropagation을 하기 위해, $p(x_t|x_0)$에서 뽑은(sampled) $x_t$는 **reparametrization trick**에 의해 수식을 아래로 바꿔서 표현
+
+        **variance schedule $\beta_t$를 고정하고, 원본 이미지 $x_0$를 알면 $x_t$를 바로 구할 수 있음**
+    - backpropagation을 하기 위해, $p(x_t \vert x_0)$에서 뽑은 (sampled) $x_t$는 **reparametrization trick**에 의해 수식을 아래로 바꿔서 표현
+
         $$x_t = \sqrt{\hat\beta_t} \cdot x_0 + \sqrt{(1-\hat\beta_t)}\cdot z_t$$
+
         $$z_t \sim \mathcal{N}(0,I)$$
+        
         - 정규화(standarize)의 역과정으로 Gaussian noise $z$에 표준 편차 ($\sqrt{(1-\hat\beta_t)}$)를 곱하고 평균 ($\sqrt{\beta_t} \cdot x_0$)을 더해줌
-    - **$\beta_t$ 특징**
+    - $\beta_t$ 특징
         - $x_T$의 분포가 표준 정규 분포 (Gaussian distribution) $\pi(x_T)=\mathcal{N}(0, I)$가 되어야 함
-        - $p(x_T|x_0) = \mathcal{N}(x_T;\ \sqrt{\hat{\beta_T}}\cdot x_0,\ (1-\hat{\beta_T})\cdot I) = \pi(x_T)$가 성립되기 위해서, $\hat\beta_T\rightarrow 0$인 variance schedule $(\beta_t)^T_{t=1}$를 선택해야함
+        - $p(x_T\vert x_0) = \mathcal{N}(x_T;\ \sqrt{\hat{\beta_T}}\cdot x_0,\ (1-\hat{\beta_T})\cdot I) = \pi(x_T)$가 성립되기 위해서, $\hat\beta_T\rightarrow 0$인 variance schedule $(\beta_t)^T_{t=1}$를 선택해야함
         - $(\beta_t)^T_{t=1} \ll 1$이면, reverse step은 forward step와 동일한 함수 형태(functional form)로 표현할 수 있음
             - $x_t$가 아주 작은 step에 의해 생성되었다는 가정이 있으면, $x_{t-1}$이 $x_t$와 가까운 영역에서 있었을 가능성이 매우 크기에, 이 영역을 Gaussian 분산으로 model하는 것이 가능 
         - [Ho et al.](https://proceedings.neurips.cc/paper/2020/file/4c5bcfec8584af0d967f1ab10179ca4b-Paper.pdf) 논문에서 사용한 variance schedule $(\beta_t)^T_{t=1}$: linearly increaing constants with $\beta_1=10^{-4}, \quad \beta_T=2\cdot 10^{-2}, \quad T = 1000$
-<br><br>
 
-2) **backward denoising process**
-- sample $x_T = \mathcal{N}(0, I)$를 시작으로 아래 수식처럼 거꾸러 가면 $p(x_0)$에서 새로운 sample들을 만들 수 있음
-    $$p(x_{t-1}|x_t) = \mathcal{N}(x_{t-1};\ \mu(x_t, t),\ \Sigma(x_t, t))$$
-- neural network를 학습하여, 위 수식과 유사한 과정을 만드는 것이 목표
-    $$p_\theta(x_{t-1}|x_t) = \mathcal{N}(x_{t-1};\ \mu_\theta(x_t, t),\ \Sigma_\theta(x_t, t))$$
-    - input: noisy image $x_t$ & embedding at time step $t$
-    - <span style='background-color:#fff5b1'>learns</span>: 평균 $\mu_\theta(x_t, t)$ & 공분산 $\Sigma_\theta(x_t, t)$
-- model $p_\theta(x_0)$이 각 training sample $x_0$에 할당한 확률을 최대화하는 최대 우도 (maximum likelihood) 사용하는 것이 이상적이나, **$p_\theta(x_0)$를 구하기는 매우 어려움**<br>
-$\Rightarrow$ 이를 해결하기 위해 <span style='background-color:#fff5b1'>negative log likelihood의 variational lower bound / ELBO (Evidence Lower BOund)를 최소화</span>하는 방법 사용
-    $$\mathcal{L}_{vlb} = -log\ p_\theta(x_0|x_1) + KL(p(x_T|x_0)\Vert\pi(x_T)) + \sum_{t>1}KL(p(x_{t-1}|x_t, x_0)\ \Vert\ p_\theta(x_{t-1}|x_t))$$
-    - KL: 두 확률 분포의 Kullback-Leibler divergence
-    - 두 번째 항은 $\theta$에 영향을 받지 않기에 무시 가능
-    - 마지막 항은 **각 time step $t$에서 $p_\theta(x_{t-1}|x_t)$가 forward process가 원본 이미지를 조건으로 받을 때의 true posterior에 최대한 가까워지도록 neural network가 학습 됨**
-    - KL divergence의 closed-form expression에 의해 $p(x_{t-1}|x_t, x_0)$이 Gaussian distribution임을 증명할 수 있음
+2. **backward denoising process**
+    - sample $x_T = \mathcal{N}(0, I)$를 시작으로 아래 수식처럼 거꾸러 가면 $p(x_0)$에서 새로운 sample들을 만들 수 있음
+
+        $$p(x_{t-1}\vert x_t) = \mathcal{N}(x_{t-1};\ \mu(x_t, t),\ \Sigma(x_t, t))$$
+
+    - neural network를 학습하여, 위 수식과 유사한 과정을 만드는 것이 목표
+
+        $$p_\theta(x_{t-1}\vert x_t) = \mathcal{N}(x_{t-1};\ \mu_\theta(x_t, t),\ \Sigma_\theta(x_t, t))$$
+
+        - input: noisy image $x_t$ & embedding at time step $t$
+        - <span style='background-color:#fff5b1'>learns</span>: 평균 $\mu_\theta(x_t, t)$ & 공분산 $\Sigma_\theta(x_t, t)$
+    - model $p_\theta(x_0)$이 각 training sample $x_0$에 할당한 확률을 최대화하는 최대 우도 (maximum likelihood) 사용하는 것이 이상적이나, **$p_\theta(x_0)$를 구하기는 매우 어려움**<br>
+    $\Rightarrow$ 이를 해결하기 위해 <span style='background-color:#fff5b1'>negative log likelihood의 variational lower bound / ELBO (Evidence Lower BOund)를 최소화</span>하는 방법 사용
+
+        $$\mathcal{L}_{vlb} = -log\ p_\theta(x_0\vert x_1) + KL(p(x_T\vert x_0)\Vert\pi(x_T)) + \sum_{t>1}KL(p(x_{t-1}\vert x_t, x_0)\ \Vert\ p_\theta(x_{t-1}\vert x_t))$$
+        
+        - KL: 두 확률 분포의 Kullback-Leibler divergence
+        - 두 번째 항은 $\theta$에 영향을 받지 않기에 무시 가능
+        - 마지막 항은 **각 time step $t$에서 $p_\theta(x_{t-1}\vert x_t)$가 forward process가 원본 이미지를 조건으로 받을 때의 true posterior에 최대한 가까워지도록 neural network가 학습 됨**
+        - KL divergence의 closed-form expression에 의해 $p(x_{t-1}\vert x_t, x_0)$이 Gaussian distribution임을 증명할 수 있음
     - <details>
-      <summary>variational bound 증명: Appendix A</summary>
-      <div markdown="1">
+        <summary>variational bound 증명: Appendix A</summary>
+        <div markdown="1">
 
-        - VAEs에서 사용한 방법과 비슷<br>
-          | VAEs  | Diffusion |
-          | :---: | :---: |
-          |latent variables  | noisy images $x_{1:T}$ |
-          |observed variable | original image $x_0$   |
+        - VAEs에서 사용한 방법과 비슷
 
-        <br>
+            | VAEs  | Diffusion |
+            | :---: | :---: |
+            |latent variables  | noisy images $x_{1:T}$ |
+            |observed variable | original image $x_0$   |
 
-        $$\begin{align}
-            log\ p_\theta(x_0) &= log\int p_\theta(x_{0:T})\ \partial x_{1:T} \\ 
-            &= log\int p_\theta(x_{0:T})\cdot\frac{p(x_{1:T} | x_0)}{p_(x_{1:T} | x_0)} \partial x_{1:T} \\ 
-            &= log\int p(x_{1:T}|x_0)\cdot\frac{p_\theta(x_{0:T})}{p(x_{1:T} | x_0)} \partial x_{1:T} \\
-            &= log\ \mathbb{E}_{x_{1:T}\sim p(x_{1:T}|x_0)} [ \frac{p_\theta(x_{0:T})}{p(x_{1:T} | x_0)} ] 
-        \end{align}$$
-        - (1): $p_\theta(x_0)$에 의한 정의
-        - (3): $x_{1:T}$에 의한 편미분 수식을 만들기 위해 위치 바꿈
-        - (4): $\mathbb{E}$으로 정리
-        <br><br>
-        - Jensen's inequality에 의해 random variable $Y$와 convex function $f$는 아래 부등식이 성립함
-            $$f(\mathbb{E}[Y]) \leq \mathbb{E}[f(Y)]$$
-            
-            $f$는 $log$, $Y$는 $\frac{p_\theta(x_{0:T})}{p(x_{1:T} | x_0)}$로 $log$ 함수는 concave하기에 위 부등식을 바꿔서 정리하면,
-            
-            $$log\ p_\theta(x_0) \geq \mathbb{E}_{x_{1:T}\sim p(x_{1:T}|x_0)}\ [\ log\frac{p_\theta(x_{0:T})}{p(x_{1:T} | x_0)}\ ]\\
-            -log\ p_\theta(x_0) \leq \mathbb{E}_{x_{1:T}\sim p(x_{1:T}|x_0)}\ [\ log \frac{p(x_{1:T} | x_0)}{p_\theta(x_{0:T})}\ ]$$
+            <br>
 
-            구하기 힘든 $p_\theta(x_0)$이 아닌 부등식의 오른쪽 항을 최소화시키는 걸 objective function으로 사용 가능해짐
-
-        - 정의에 의해 forward와 reverse process는 Markovian으로, 확률들을 아래와 같이 다시 정의할 수 있음
-            <p align="center">
-                <img src="../assets/images/DiffusionVision-Survey/img_02.jpeg" width="60%">
-            </p>
-        <br>
-
-        - 위에서 정리된 확률로 부등식의 오른쪽 항을 정하면, 
             $$\begin{align}
-            \mathbb{E}_{x_{1:T}\sim p(x_{1:T}|x_0)}\ [\ log \frac{p(x_{1:T} | x_0)}{p_\theta(x_{0:T})}\ ] 
-            &= \mathbb{E}_p [\ log \frac{\Pi_{t=1}^T\ p(x_t | x_{t-1})} {p_\theta(x_T)\ \Pi_{t=1}^T\ p_\theta(x_{t-1} | x_{t})}] \\
-            &= \mathbb{E}_p[\ -log\ p_\theta(x_T) + \sum_{t=1}^Tlog\frac{p(x_t | x_{t-1}) }{p_\theta(x_{t-1} | x_{t})}] \\
-            &= \mathbb{E}_p[\ -log\ p_\theta(x_T) + \sum_{t=1}^Tlog\frac{p(x_{t-1}|x_t, x_0)\cdot p(x_t|x_0)} {p(x_{t-1}|x_0)\cdot p_\theta(x_{t-1} | x_{t})}] \\
-            &= \mathbb{E}_p[\ -log\ p_\theta(x_T)] + \mathbb{E}_p[ \sum_{t=2}^T log\frac{p(x_{t-1}|x_t, x_0)}{p_\theta(x_{t-1}|x_0)}] \\ 
-            &+ \mathbb{E}_p[ \sum_{t=2}^T log\frac{p(x_t|x_0)}{p(x_{t-1}|x_0)} + log\frac{p(x_1|x_0)}{p_\theta(x_0|x_1)}] \\
-            &= \mathbb{E}_p[\ -log\ p_\theta(x_T)] + \mathbb{E}_p[ \sum_{t=2}^T log\frac{p(x_{t-1}|x_t, x_0)}{p_\theta(x_{t-1}|x_0)}] \\ 
-            &+ \mathbb{E}_p[  log\frac{p(x_T|x_0)}{p(x_1|x_0)} + log\frac{p(x_1|x_0)}{p_\theta(x_0|x_1)}] \\
-            &= \mathbb{E}_p[log\frac{1}{p_\theta(x_T)}\cdot \frac{p(x_T|x_0)}{p(x_1|x_0)} \cdot \frac{p(x_1|x_0)}{p_\theta(x_0|x_1)}]  + \mathbb{E}_p[ \sum_{t=2}^T log\frac{p(x_{t-1}|x_t, x_0)}{p_\theta(x_{t-1}|x_0)}] \\ 
-            &= \mathbb{E}_p[log\frac{p(x_T|x_0)}{p_\theta(x_T)} - log\ p_\theta(x_0|x_1)] + \mathbb{E}_p[ \sum_{t=2}^T log\frac{p(x_{t-1}|x_t, x_0)}{p_\theta(x_{t-1}|x_0)}] \\
-            &= KL(p(x_T|x_0)\ \Vert\ p_\theta(x_T)) - log\ p_\theta(x_0|x_1) \\
-            &+\sum_{t=2}^T KL(p(x_{t-1}|x_t, x_0)\ \Vert\ p_\theta(x_{t-1}|x_t)))
+                log\ p_\theta(x_0) &= log\int p_\theta(x_{0:T})\ \partial x_{1:T} \\ 
+                &= log\int p_\theta(x_{0:T})\cdot\frac{p(x_{1:T} | x_0)}{p_(x_{1:T} | x_0)} \partial x_{1:T} \\ 
+                &= log\int p(x_{1:T}|x_0)\cdot\frac{p_\theta(x_{0:T})}{p(x_{1:T} | x_0)} \partial x_{1:T} \\
+                &= log\ \mathbb{E}_{x_{1:T}\sim p(x_{1:T}|x_0)} [ \frac{p_\theta(x_{0:T})}{p(x_{1:T} | x_0)} ] 
             \end{align}$$
+            - (1): $p_\theta(x_0)$에 의한 정의
+            - (3): $x_{1:T}$에 의한 편미분 수식을 만들기 위해 위치 바꿈
+            - (4): $\mathbb{E}$으로 정리
+            <br><br>
+            - Jensen's inequality에 의해 random variable $Y$와 convex function $f$는 아래 부등식이 성립함
+                $$f(\mathbb{E}[Y]) \leq \mathbb{E}[f(Y)]$$
+                
+                $f$는 $log$, $Y$는 $\frac{p_\theta(x_{0:T})}{p(x_{1:T} | x_0)}$로 $log$ 함수는 concave하기에 위 부등식을 바꿔서 정리하면,
+                
+                $$log\ p_\theta(x_0) \geq \mathbb{E}_{x_{1:T}\sim p(x_{1:T}|x_0)}\ [\ log\frac{p_\theta(x_{0:T})}{p(x_{1:T} | x_0)}\ ]\\
+                -log\ p_\theta(x_0) \leq \mathbb{E}_{x_{1:T}\sim p(x_{1:T}|x_0)}\ [\ log \frac{p(x_{1:T} | x_0)}{p_\theta(x_{0:T})}\ ]$$
 
-            - (5): 편의상 $x_{1:T}\sim p(x_{1:T}|x_0)$를 $p$로 대체
-            - (7): forward process가 Markovian이기에 $p(x_t|x_{t-1}) = p(x_t|x_{t-1}, x_0)$이며, 베이지언 정리에 의해 아래의 수식이 성립됨
-                $$ p(x_t|x_{t-1}, x_0) = \frac{p(x_{t-1}|x_t, x_0)\cdot p(x_t|x_0)}{p(x_{t-1}|x_0)}$$
-            - (8) & (9): $t \geq 2$에 대해서 정리하고, (9)의 마지막 항은 (7)에서 t=1일 때 나오는 값
-            - (11): (9)의 첫 번째 항은 전개되며 정리됨
-            - (14) & (15): Kullback-Leibler divergence로 바꾸기
+                구하기 힘든 $p_\theta(x_0)$이 아닌 부등식의 오른쪽 항을 최소화시키는 걸 objective function으로 사용 가능해짐
 
-       </div>
-       </details>
+            - 정의에 의해 forward와 reverse process는 Markovian으로, 확률들을 아래와 같이 다시 정의할 수 있음
+                <p align="center">
+                    <img src="../assets/images/DiffusionVision-Survey/img_02.jpeg" width="60%">
+                </p>
+            <br>
 
-- [Ho et al.](https://proceedings.neurips.cc/paper/2020/file/4c5bcfec8584af0d967f1ab10179ca4b-Paper.pdf) 논문에서 공분산 $\Sigma_\theta(x_t, t)$를 상수로 정의하고, 평균 $\mu_\theta(x_t,t)$를 noise에 대한 함수로 표현하는 방법 제안
-    $$\mu_\theta=\frac{1}{\sqrt\alpha_t}\cdot(x_t - \frac{1-\alpha_t}{\sqrt{1-\hat\beta_t}}\cdot z_\theta(x_t,t))$$
-    - 위 수식을 기반으로 $\mathcal{L}_{vlb}$를, random한 time step $t$의 forward process에서의 예측된 noise $z_\theta(x_t, t)$와 실제 noise $z_t$ 사이의 거리 비교로 간단한 수식으로 변환
-        $$\mathcal{L}_{simple} = \mathbb{E}_{t\sim[1,T]} \mathbb{E}_{x_0\sim p(x_0)} \mathbb{E}_{z_t\sim \mathcal{N}(0, I)} \Vert z_t - z_\theta(x_t, t)\Vert^2$$
-        - $z_\theta(x_t, t)$: network predicting the noise in $x_t$
-        - $x_t$: sampled via $x_t = \sqrt{\hat\beta_t} \cdot x_0 + \sqrt{(1-\hat\beta_t)}\cdot z_t$, where we use a random image $x_0$ from the training set
-    - generative process는 $p_\theta(x_{t-1}|x_t)$에 의해 정의되지만, neural network가 평균과 공분산을 바로 추측하는 것이 아닌,<br> 
-       <span style='background-color:#fff5b1'>**image에서의 noise를 예측 $\rightarrow$ 평균은 $\mu_\theta$에 대한 수식으로 구하고, 공분산은 고정된 상수이므로 그대로 사용**</span>
-    - 전체 과정에 대한 알고리즘
-        <p align="center">
-            <img src="../assets/images/DiffusionVision-Survey/img_03.jpeg" width="60%">
-        </p>
-    - <details>
-      <summary>수식 유도: Appendix B</summary>
-      <div markdown="1">
+            - 위에서 정리된 확률로 부등식의 오른쪽 항을 정하면, 
+                $$\begin{align}
+                \mathbb{E}_{x_{1:T}\sim p(x_{1:T}|x_0)}\ [\ log \frac{p(x_{1:T} | x_0)}{p_\theta(x_{0:T})}\ ] 
+                &= \mathbb{E}_p [\ log \frac{\Pi_{t=1}^T\ p(x_t | x_{t-1})} {p_\theta(x_T)\ \Pi_{t=1}^T\ p_\theta(x_{t-1} | x_{t})}] \\
+                &= \mathbb{E}_p[\ -log\ p_\theta(x_T) + \sum_{t=1}^Tlog\frac{p(x_t | x_{t-1}) }{p_\theta(x_{t-1} | x_{t})}] \\
+                &= \mathbb{E}_p[\ -log\ p_\theta(x_T) + \sum_{t=1}^Tlog\frac{p(x_{t-1}|x_t, x_0)\cdot p(x_t|x_0)} {p(x_{t-1}|x_0)\cdot p_\theta(x_{t-1} | x_{t})}] \\
+                &= \mathbb{E}_p[\ -log\ p_\theta(x_T)] + \mathbb{E}_p[ \sum_{t=2}^T log\frac{p(x_{t-1}|x_t, x_0)}{p_\theta(x_{t-1}|x_0)}] \\ 
+                &+ \mathbb{E}_p[ \sum_{t=2}^T log\frac{p(x_t|x_0)}{p(x_{t-1}|x_0)} + log\frac{p(x_1|x_0)}{p_\theta(x_0|x_1)}] \\
+                &= \mathbb{E}_p[\ -log\ p_\theta(x_T)] + \mathbb{E}_p[ \sum_{t=2}^T log\frac{p(x_{t-1}|x_t, x_0)}{p_\theta(x_{t-1}|x_0)}] \\ 
+                &+ \mathbb{E}_p[  log\frac{p(x_T|x_0)}{p(x_1|x_0)} + log\frac{p(x_1|x_0)}{p_\theta(x_0|x_1)}] \\
+                &= \mathbb{E}_p[log\frac{1}{p_\theta(x_T)}\cdot \frac{p(x_T|x_0)}{p(x_1|x_0)} \cdot \frac{p(x_1|x_0)}{p_\theta(x_0|x_1)}]  + \mathbb{E}_p[ \sum_{t=2}^T log\frac{p(x_{t-1}|x_t, x_0)}{p_\theta(x_{t-1}|x_0)}] \\ 
+                &= \mathbb{E}_p[log\frac{p(x_T|x_0)}{p_\theta(x_T)} - log\ p_\theta(x_0|x_1)] + \mathbb{E}_p[ \sum_{t=2}^T log\frac{p(x_{t-1}|x_t, x_0)}{p_\theta(x_{t-1}|x_0)}] \\
+                &= KL(p(x_T|x_0)\ \Vert\ p_\theta(x_T)) - log\ p_\theta(x_0|x_1) \\
+                &+\sum_{t=2}^T KL(p(x_{t-1}|x_t, x_0)\ \Vert\ p_\theta(x_{t-1}|x_t)))
+                \end{align}$$
 
-      - $p_\theta(x_{t-1}|x_t)$의 공분산을 미리 $\sigma_t^2\cdot I$로 고정하여, 학습하지 않도록 제한
-      - <span style='background-color:#fff5b1'>**$\sigma_t^2=\beta_t$로 고정되므로, $\mathcal{L}_{vlb}$의 Kullback-Leibler divergence가 두 분포의 평균 사이의 거리와 $\theta$에 영향 받지 않는 상수의 합으로 정리됨**</span>
+                - (5): 편의상 $x_{1:T}\sim p(x_{1:T}\vert x_0)$를 $p$로 대체
+                - (7): forward process가 Markovian이기에 $p(x_t\vert x_{t-1}) = p(x_t\vert x_{t-1}, x_0)$이며, 베이지언 정리에 의해 아래의 수식이 성립됨
+                    $$ p(x_t\vert x_{t-1}, x_0) = \frac{p(x_{t-1}\vert x_t, x_0)\cdot p(x_t\vert x_0)}{p(x_{t-1}\vert x_0)}$$
+                - (8) & (9): $t \geq 2$에 대해서 정리하고, (9)의 마지막 항은 (7)에서 t=1일 때 나오는 값
+                - (11): (9)의 첫 번째 항은 전개되며 정리됨
+                - (14) & (15): Kullback-Leibler divergence로 바꾸기
 
-        $$\begin{align*}
-        \mathcal{L}_{kl} &= KL(p(x_{t-1}|x_t, x_0)\ \Vert\ p_\theta(x_{t-1}|x_t))\\
-                            &= \frac{1}{2\cdot\sigma_t^2}\cdot \Vert \tilde{\mu}(x_t, x_0) - \mu_\theta(x_y,t)\Vert^2 + C
-        \end{align*}$$
-        - $\tilde{\mu}(x_t, x_0)$: $p(x_{t-1}|x_t, x_0)$의 평균 $\qquad \mu_\theta(x_y,t)$: $p_\theta(x_{t-1}|x_t)$의 평균 $\qquad C$: 상수
-        - neural network의 output은 $\mu_\theta(x_y,t)$
-      - 평균 $\tilde{\mu}(x_t, x_0)$를 $x_t$와 $z_t$으로 표현하여 정리가 가능해지며, $\mu_\theta(x_t, t)$ 또한 이와 가까워져야 함
-        $$\tilde{\mu}(x_t, x_0) = \frac{1}{\sqrt\alpha_t}(x_t - \frac{\beta_t}{\sqrt{1-\hat\beta_t}}\cdot z_t)$$
-        $$\mu(x_t, t) = \frac{1}{\sqrt\alpha_t}(x_t - \frac{\beta_t}{\sqrt{1-\hat\beta_t}}\cdot z_\theta(x_t, t))$$
-        - $z_\theta(x_t, t)$: neural network output, noisy image $x_t$가 주어졌을 때 noise $z_t$ 추측값
-      - $\mathcal{L}_{kl}$의 위 수식에서의 평균 값으로 대체하면 아래 수식으로 정리됨
-        $$\mathcal{L}_{kl}=\frac{\beta_t^2}{2\sigma_t^2\alpha_t(1-\hat\beta_t)}\Vert z_t - z_\theta(x_t, t)\Vert^2$$
-        - 이미지 $x_t$의 실제 noise와 network가 예측한 값 사이의 시간에 따른(time-weighted) 거리 의미
-      - 앞의 weight인 $\frac{\beta_t^2}{2\sigma_t^2\alpha_t(1-\hat\beta_t)}$를 생략해서 더 간단하게 만들어 최종 loss 수식 전개
-        $$\mathcal{L}_{simple}=\mathbb{E}_{t\sim[1,T]} \mathbb{E}_{x_0\sim p(x_0)} \mathbb{E}_{z_t\sim \mathcal{N}(0, I)} \Vert z_t - z_\theta(x_t, t)\Vert^2$$
+        </div>
+        </details>
 
-      </div>
-      </details>
+    - [Ho et al.](https://proceedings.neurips.cc/paper/2020/file/4c5bcfec8584af0d967f1ab10179ca4b-Paper.pdf) 논문에서 공분산 $\Sigma_\theta(x_t, t)$를 상수로 정의하고, 평균 $\mu_\theta(x_t,t)$를 noise에 대한 함수로 표현하는 방법 제안
 
-## NCNS
+        - $$\mu_\theta=\frac{1}{\sqrt\alpha_t}\cdot(x_t - \frac{1-\alpha_t}{\sqrt{1-\hat\beta_t}}\cdot z_\theta(x_t,t))$$
+
+        - 위 수식을 기반으로 $\mathcal{L}_{vlb}$를 random한 time step $t$의 forward process에서의 예측된 noise $z{\theta}(x_t,t)$ 와 실제 noise $z_t$ 사이의 거리 비교로 식을 간단하게 변환    
+
+            $$\mathcal{L}_{simple} = \mathbb{E}_{t\sim[1,T]} \mathbb{E}_{x_0\sim p(x_0)} \mathbb{E}_{z_t\sim \mathcal{N}(0, I)} \Vert z_t - z_\theta(x_t, t)\Vert^2$$
+
+            - $z_\theta(x_t, t)$: network predicting the noise in $x_t$
+            - $x_t$: sampled via $x_t = \sqrt{\hat\beta_t} \cdot x_0 + \sqrt{(1-\hat\beta_t)}\cdot z_t$, where we use a random image $x_0$ from the training set
+        - generative process는 $p_\theta(x_{t-1}\vert x_t)$에 의해 정의되지만, neural network가 평균과 공분산을 바로 추측하는 것이 아닌,<br> 
+        <span style='background-color:#fff5b1'>**image에서의 noise를 예측 $\rightarrow$ 평균은 $\mu_\theta$에 대한 수식으로 구하고, 공분산은 고정된 상수이므로 그대로 사용**</span>
+        - 전체 과정에 대한 알고리즘
+            <p align="center">
+                <img src="../assets/images/DiffusionVision-Survey/img_03.jpeg" width="60%">
+            </p>
+        - <details>
+            <summary>수식 유도: Appendix B</summary>
+            <div markdown="1">
+
+            - $p_\theta(x_{t-1}\vert x_t)$의 공분산을 미리 $\sigma_t^2\cdot I$로 고정하여, 학습하지 않도록 제한
+            - <span style='background-color:#fff5b1'>**$\sigma_t^2=\beta_t$로 고정되므로, $\mathcal{L}_{vlb}$의 Kullback-Leibler divergence가 두 분포의 평균 사이의 거리와 $\theta$에 영향 받지 않는 상수의 합으로 정리됨**</span>
+
+                $$\begin{align*}
+                \mathcal{L}_{kl} &= KL(p(x_{t-1}|x_t, x_0)\ \Vert\ p_\theta(x_{t-1}|x_t))\\
+                                    &= \frac{1}{2\cdot\sigma_t^2}\cdot \Vert \tilde{\mu}(x_t, x_0) - \mu_\theta(x_y,t)\Vert^2 + C
+                \end{align*}$$
+
+                - $\tilde{\mu}(x_t, x_0)$: $p(x_{t-1}\vert x_t, x_0)$의 평균 $\qquad \mu_\theta(x_y,t)$: $p_\theta(x_{t-1}\vert x_t)$의 평균 $\qquad C$: 상수
+                - neural network의 output은 $\mu_\theta(x_y,t)$
+            - 평균 $\tilde{\mu}(x_t, x_0)$를 $x_t$와 $z_t$으로 표현하여 정리가 가능해지며, $\mu_\theta(x_t, t)$ 또한 이와 가까워져야 함
+
+                $$\tilde{\mu}(x_t, x_0) = \frac{1}{\sqrt\alpha_t}(x_t - \frac{\beta_t}{\sqrt{1-\hat\beta_t}}\cdot z_t)$$
+
+                $$\mu(x_t, t) = \frac{1}{\sqrt\alpha_t}(x_t - \frac{\beta_t}{\sqrt{1-\hat\beta_t}}\cdot z_\theta(x_t, t))$$
+
+                $z_\theta(x_t, t)$: neural network output, noisy image $x_t$가 주어졌을 때 noise $z_t$ 추측값
+            - $\mathcal{L}_{kl}$의 위 수식에서의 평균 값으로 대체하면 아래 수식으로 정리됨
+
+                $$\mathcal{L}_{kl}=\frac{\beta_t^2}{2\sigma_t^2\alpha_t(1-\hat\beta_t)}\Vert z_t - z_\theta(x_t, t)\Vert^2$$
+
+                이미지 $x_t$의 실제 noise와 network가 예측한 값 사이의 시간에 따른(time-weighted) 거리 의미
+            - 앞의 weight인 $\frac{\beta_t^2}{2\sigma_t^2\alpha_t(1-\hat\beta_t)}$를 생략해서 더 간단하게 만들어 최종 loss 수식 전개
+            
+                $$\mathcal{L}_{simple}=\mathbb{E}_{t\sim[1,T]} \mathbb{E}_{x_0\sim p(x_0)} \mathbb{E}_{z_t\sim \mathcal{N}(0, I)} \Vert z_t - z_\theta(x_t, t)\Vert^2$$
+
+            </div>
+            </details>
+
+## 2.3. NCNS
 - Noise Conditioned Score Network
 - $\nabla_x log\ p(x)$
     - 몇몇의 data density $p(x)$의 score function은 input에 대한 log density의 gradient으로 정의 가능
@@ -207,41 +232,48 @@ $\Rightarrow$ 이를 해결하기 위해 <span style='background-color:#fff5b1'>
     - Langevin dynamics는 data sampling애 사용할 수 있는 반복적인 방법
     - 물리학과의 비교
         물리학에서는 입자와 다른 분자들 사이의 상호작용을 고려한 분자 시스템에서 입자의 궤적 결정을 위한 방법으로 drag force와 random force에 영향 받음
+
         | difference | drag force | random force $\omega_i$ | 두 force에 대한 weight $\gamma$ |
         | :---:     | :---: | :---: | :---: |
         | physics   |  시스템 안의 항력 (drag force)| 분자 사이의 빠른 상호작용으로 인해 만들어진 random force |입자가 존재하는 공간애서 환경의 마찰 계수(friction coefficient) |
         | diffusion | log density의 gradient로 data space에서의 random sample을 밀도 놓은 data density $p(x)$로 끌어들이는 힘  | local minima에서 벗어나게 해주는 요소 | update에서의 magnitude 정도 조절 |
 
         - iterative updates of the Langevin dynamics
+            
             $$x_i = x_{i-1} + \frac{\gamma}{2} \nabla_x log\ p(x)+\sqrt\gamma\cdot \omega_i$$
-            - $i \in \{1, \cdots, N\},\ \text{recursively for}\ N\rightarrow\infin\ \text{steps}$
+
+            - $i \in \{1, \cdots, N\},\ \text{recursively for}\ N\rightarrow \infty \ \text{steps}$
             - $\gamma$: score 방향성으로의 update magnitude 조절
             - $x_0$: prior distribution에서 sample 됨
             - $\omega_i\sim \mathcal{N}(0,I)$: local minima에서 나올 수 있게 도와주는 noise  
     - neural network $s_\theta(x) \approx \nabla_x log\ p(x)$로 score를 예측한 후, p(x)에서 sampling하는 방법으로 generative model에 적용 가능
         - score mathching 방법으로 학습가능하지만, $\nabla_x log\ p(x)$를 모르기에 아래 수식을 그대로 적용할 수 없음<br>
             denoising score matching이나 sliced score mathcing 방법을 사용해야 함
+
             $$\mathcal{L}_{sm} = \mathbb{E}_{x\sim p(x)}\Vert s_\theta(x) - \nabla_x log\ p(x)\Vert^2_2$$
+
     - 실제 데이터에서 적용할 때 manifold hypothesis에 관련된 문제들이 발생함: 
         데이터가 low-dimensional manifold에 있을 때, score estimation $s_\theta(x)$가 일관되지 않음<br>
         이로 인해 밀도가 높은 지역으로 Langevin dynamics가 수렴하지 않을 수 있게 됨
     - 이를 해결하기 위해, 데이터를 **다양한 scale의 Gaussian noise**애 대해 왜곡(perturbing)하고, 하나의 NCNS를 학습하여 noisy 분포에 대한 score estimate 진행<br>
     각 noise scale에 대한 score estimates 사용
         - $\sigma_1 < \sigma_2 < \cdots < \sigma_T$: a sequence of Gaussian noise scales such that $p_{\sigma_1}(x) \approx p(x_0)$ and $p_{\sigma_T}\approx\mathcal{N}(0,I)$
-        - $s_\theta(x, \sigma_t) \approx \nabla_x log\ p_{\theta_t}(x)$를 달성하기 위해 NCNS $s_\theta(x, \sigma_t$를 denoising score matching으로 학습 ($\forall t \in \{1, \cdots, T\}$)
+        - $s_\theta(x, \sigma_t) \approx \nabla_x log\ p_{\theta_t}(x)$를 달성하기 위해 NCNS $s_\theta(x, \sigma_t)$를 denoising score matching으로 학습 $(\forall t \in \{1, \cdots, T\})$
+
             $$\begin{align*}
             p_{\sigma_t}(x_t|x) &= \mathcal{N}(x_t;\ x,\ \sigma_t^2\cdot I)\\
                 &= \frac{1}{\sigma_t\cdot \sqrt{2\pi}}\cdot exp(-\frac{1}{2}\cdot(\frac{x_t-x}{\sigma_t})^2)
             \end{align*}$$ 
+
             일 때, $\nabla_{x} log\ p_{\sigma_t}(x)$를 아래의 수식처럼 유도 가능 ($x_t$: $x$의 noised version)
             
             $$\nabla_{x_t} log\ p_{\sigma_t}(x_t|x) = -\frac{x_t-x}{\sigma_t^2}$$
 
-            위의 $\mathcal{L}_{sm}$을 모든 $(\sigma_t)^T_{t=1},\ \forall t\in\{1, \cdots, T\}$에 대해 일반화하고, gradient에 위 수식을 대입하면 아래처럼 간단하게 정리됨
+            모든 $(\sigma_{t})^T_{t=1}$에 대해 일반화하고, gradient를 $\mathcal{L}_{sm}$ 대입하면 아래처럼 간단하게 정리됨 $(\forall t\in\{1, \cdots, T\})$
 
             $$\mathcal{L}_{dsm}=\frac{1}{T}\sum_{t=1}^T\lambda(\sigma_t) \mathbb{E}_{p(x)} \mathbb{E}_{x_t \sim p_{\sigma_t}(x_t|x)}\Vert s_\theta(x_t,\sigma_t)+\frac{x_t-x}{\sigma_t^2} \Vert^2_2$$
 
-            - $\lambda(\sigma_t)$: weighting function
+            $\lambda(\sigma_t)$: weighting function
 
             학습이 완료된 후, neural network $s_\theta(x_t, \sigma_t)$는 time step $t$에서 noisy input $x_t$에 대한 score $\nabla_{x_t} log\ p_{\sigma_t}(x_t)$에 대한 추측값을 return하게 됨<br>
     - Inference 시에 anneled Langevin dynamics 사용
@@ -249,7 +281,7 @@ $\Rightarrow$ 이를 해결하기 위해 <span style='background-color:#fff5b1'>
         <img src="../assets/images/DiffusionVision-Survey/img_04.jpeg" width="60%">
         </p>
         
-## SDE
+## 2.4. SDE
 - Stochastic Differential Equations
 
 
