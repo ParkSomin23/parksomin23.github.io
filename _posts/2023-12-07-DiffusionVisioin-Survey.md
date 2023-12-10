@@ -224,7 +224,7 @@ denoising diffusion probabilistic models
             </div>
             </details>
 
-## 2.3. NCNS
+## 2.3. NCSN
 - Noise Conditioned Score Network
 - $\nabla_x log\ p(x)$
     - 몇몇의 data density $p(x)$의 score function은 input에 대한 log density의 gradient으로 정의 가능
@@ -255,10 +255,10 @@ denoising diffusion probabilistic models
     - 실제 데이터에서 적용할 때 manifold hypothesis에 관련된 문제들이 발생함: 
         데이터가 low-dimensional manifold에 있을 때, score estimation $s_\theta(x)$가 일관되지 않음<br>
         이로 인해 밀도가 높은 지역으로 Langevin dynamics가 수렴하지 않을 수 있게 됨
-    - 이를 해결하기 위해, 데이터를 **다양한 scale의 Gaussian noise**애 대해 왜곡(perturbing)하고, 하나의 NCNS를 학습하여 noisy 분포에 대한 score estimate 진행<br>
+    - 이를 해결하기 위해, 데이터를 **다양한 scale의 Gaussian noise**애 대해 왜곡(perturbing)하고, 하나의 NCSN를 학습하여 noisy 분포에 대한 score estimate 진행<br>
     각 noise scale에 대한 score estimates 사용
         - $\sigma_1 < \sigma_2 < \cdots < \sigma_T$: a sequence of Gaussian noise scales such that $p_{\sigma_1}(x) \approx p(x_0)$ and $p_{\sigma_T}\approx\mathcal{N}(0,I)$
-        - $s_\theta(x, \sigma_t) \approx \nabla_x log\ p_{\theta_t}(x)$를 달성하기 위해 NCNS $s_\theta(x, \sigma_t)$를 denoising score matching으로 학습 $(\forall t \in \{1, \cdots, T\})$
+        - $s_\theta(x, \sigma_t) \approx \nabla_x log\ p_{\theta_t}(x)$를 달성하기 위해 NCSN $s_\theta(x, \sigma_t)$를 denoising score matching으로 학습 $(\forall t \in \{1, \cdots, T\})$
 
             $$\begin{align*}
             p_{\sigma_t}(x_t|x) &= \mathcal{N}(x_t;\ x,\ \sigma_t^2\cdot I)\\
@@ -283,6 +283,103 @@ denoising diffusion probabilistic models
         
 ## 2.4. SDE
 - Stochastic Differential Equations
+- data distribution $p(x_0)$을 서서히 noise로 바꾸는 방법으로, **위의 2가지 방법을 일반화함**<br>
+diffusion 과정이 **연속적 (continuous)**으로 고려되어, stochastic differential equation (SDE)의 해가 되기 때문<br><br>
+이 방법의 diffusion의 역과정은 reverse-time SDE로 구할 수 있는데, 각 time step에서의 밀도에 대한 score function이 필요함<br><br>
+이를 위해 neural network는 score function들을 예측하고, numerical SDE solvers를 사용하여 $p(x_0)$에서의 sample들을 생성하는 방식 제안됨<br><br>
+즉, NCSNs 방법처럼 왜곡된 data와 time step을 입력 받고, score function의 예측값 생성
 
+1. **forward diffusion process** $(x_t)_{t=0}^T, t\in [0, T]$
+    
+    $$\frac{\partial x}{\partial t}=f(x,t)+\sigma(t)\cdot \omega_t \Leftrightarrow \partial x=f(x, t)\cdot \partial t + \sigma(t)\cdot\partial \omega$$
 
+    - $\omega_t$: Gaussian noise
+    - $f$: drift coefficient 연산하는 함수
+    - $\sigma$: 시간에 따라, diffusion coefficient 연산하는 함수
+    
+    diffusion이 SDE의 해가 되기 위해서,<br>
+    1\) drift coefficient은 점진적으로 data $x_0$를 무효되게 (nullify) 디자인<br>
+    2\) diffusion coefficient는 더해질 Gaussian noise 조절
+
+2. **reverse-time SDE**
+
+    $$\partial x = [f(x,t) - \sigma(t)^2\cdot \nabla_xlog\ p_t(x)]\cdot \partial t + \sigma(t) \cdot \partial \hat\omega$$
+
+    - $\hat\omega$: 시간이 T에서 0으로 거꾸로 뒤집혔을 때의 Brownian motion
+
+    순수한 noise에서 시작하면, data destruction을 한 drift를 제거함으로써 data를 복원할 수 있음을 나타냄<br>
+    즉, $\sigma(t)^2\cdot \nabla_xlog\ p_t(x)$를 빼줌으로써 drift 제거 가능
+
+    neural network $s_\theta(x, t) \approx \nabla_xlog\ p_t(x)$를, NCSNs에서의 objective에서 연속적인 경우를 적용하여 사용하면 됨
+
+    $$\mathcal{L}_{dsm}^*=\mathbb{E}_t [ \lambda(t)\ \mathbb{E}_{p(x_0)}\ \mathbb{E}_{p_t(x_t|x_0)}\ \Vert s_\theta(x_t, t) - \nabla_{x_t}log\ p_t(x_t|x_0) \Vert^2_2 ]$$
+
+    - $\lambda$: weighting function $\qquad t \sim \mathcal{U}([0,T])$
+    
+    drift coefficient $f$는 affine하면, $p_t(x_t\vert x_0)$는 Gaussian 분포를 따름<br>
+    $f$가 affine이지 않으면, denoising score matching 사용 불가하며 sliced score matching로 대체해야 함(fallback)
+
+    **reverse-time SDE**에서 첫 번째 수식으로 정의된 SDE에 모든 numerical 방법으로 sampling이 가능하지만,<br>
+    실제 solver들은 연속적으로 작동하지 않기에 다른 방법을 써야함<br>
+    1. Euler-Maruyama method
+        - 작은 negative step $\Delta t$로 고정하고, 처음 time step $t=T$가 $t=0$이 될 때까지 Algorithm 3를 반복
+            <p align="center">
+            <img src="../assets/images/DiffusionVision-Survey/img_05.jpeg" width="60%">
+            </p>
+        - Brownian motion: $\Delta\hat\omega=\sqrt{\vert \Delta t\vert}\cdot z,\quad z\sim\mathcal(0,I)$
+    2. Predictor-Corrector sampler
+        - 더 나은 example 생성하도록하는 sampling 방법
+        - reverse-time SDE에서 sample하는 numerical 방법 사용하고, corrector로 score-based 방식 사용 (ex) (이전 subsection에 있는) annealed Langevin dynamics
+        - reverse process를 model할 때, ordinary differential equations (ODEs)도 사용 가능<br>
+        따라서, SDE 해석으로 나온 새로운 sampling 방법은 ODEs에 적용된 numerical 방법을 기반으로 함<br>
+        효율성이 좋다는 장점 있음
+
+# 3. Relation to Other Generative Models
+## 3.1. VAEs
+- 공통점
+    - data가 latent space에서 mapping 됨
+    - latent representations를 데이터로 바꿔주는 생성하는 과정을 학습함
+    - objective function은 lower-bound of the data likelihood에서 유래됨
+- 차이점
+
+    | | latent representation | dimension size | mapping to the latent space |
+    | :---: | :---: | :---: | :---: |
+    |VAEs| 원본 이미지의 압축된 정보를 담고 있음 | 입력 데이터보다 차원이 줄어들 때 더 잘 작동됨 | 학습 가능 |
+    |Diffusion | forward process의 마지막 step 이후에는 data를 완전히 파괴함 | 원본 데이터와 차원 크기가 같음 | forward process는 학습 불가능 (원본 이미지에 Gaussian noise를 점진적으로 더하면서 latent를 구하기 때문) |
+
+## 3.2. Autoregressive models
+- Autoregressive model들은 이미지를 pixel들의 순서로 나타냄<br>
+    전에 생성한 pixel을 조건으로 한, pixel by pixel로 이미지 생성해서 새로운 sample 생성<br>
+    $\Rightarrow$ 단방향적 경향(unidirectional bias)이라는 한계 존재
+- [Esser et al.](https://proceedings.neurips.cc/paper/2021/file/1cdf14d1e3699d61d237cf76ce1c2dca-Paper.pdf)에서 Autoregressive models과 diffusion model은 서로 상호보완적이며 위의 문제를 해결할 수 있다고 함<br>
+ 각 transition이 autoregressive model로 구현한 Markov chain로, multinomial diffusion process의 역 과정을 학습하는 방식 사용<br>
+ Markov chain에서 이전 step이 autoregressive model에 global information 제공
+
+## 3.3. Normalizing flows
+- Normalizing flows는 간단한 Gaussian 분포를 복잡한 데이터 분포로 변환하는 방법으로, 변환은 계산하기 쉬운 Jacobian determinant을 가진 invertable(뒤집을 수 있는) 함수의 집합에 의해 수행됨
+- **likelihood가 추적 가능함** $\Rightarrow$ objective function은 negative log-likelihood 학습
+- 공통점:
+    - 데이터 분포를 Gaussian noise로 mapping
+- 차이점:
+    - invertable하고 미분가능한 함수들을 활용하여 학습하기에 mapping이 결정됨 (deterministic fashion)<br>
+    즉, network 구조와 forward process에 대해 diffusion보다 추가적인 제한 조건이 있음
+- 두 방식을 결함한 방법이 DiffFlow<br>
+    forward와 reverse process들이 둘 다 학습 가능하고 확률론적임(stochastic)
+
+## 3.4. Energy-based models (EBMs)
+- energy function (정규화 되지 않은 density function의 추정치)를 제공하는데에 집중<br>
+    $\Rightarrow$ likelihood 기반 방식과 대조적으로, regression neural network 사용 가능<br>
+    단점은 flexibility가 크기에 학습이 어려움
+- 제안되는 학습 방법으로 score matching을 사용하고, sampling에서는 score function에 기반으로 하는 Markov Chain Monte Carlo (MCMC) 방법을 많이 사용<br>
+$\Rightarrow$ NCSNs은 학습과 sampling이 score function만 필요로 하는 energy-based framework의 한 방식
+
+## 3.5. GANs
+
+| | 단점 | 장점 | latent space | 의미론적인 (semantic) 성질 | 
+| :---: | :---: | :---: | :---: | :---: |
+|GANs| adversarial objective 때문에 학습이 어렵고 종종 mode collapse 발생 | efficient | low-dimensional latent space | subspace들이 시각적인 특성 나타내어, latent space를 바꾸면서 특성 조작 가능 | 
+|Diffusion | inefficient (inference 시에 여러 network evaluation 필요) | likelihood 기반이기에 학습 과정이 안정되고 더 다양성을 보임 | 이미지의 dimension 크기 유지, random Gaussian distribution으로 나타남 | guidance technique를 사용하는데, latent space에서 semantic 특성을 나타내지 않음 |
+
+- [Song et al.](https://openreview.net/pdf/ef0eadbe07115b0853e964f17aa09d811cd490f1.pdf)이 diffusion model의 latent space는 정의가 명확한 구조(well-defined structure)를 가지고 있으며, 이 공간에서 interpolations하면 이미지 공간에서 interpolation 된다고 설명함<br>
+즉, diffusion의 latent space에 대한 연구가 GAN보다 덜 되었으며 후속 연구들이 필요함을 의미함
       
