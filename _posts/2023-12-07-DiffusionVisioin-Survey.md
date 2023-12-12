@@ -129,14 +129,16 @@ denoising diffusion probabilistic models
                 &= log\int p(x_{1:T}|x_0)\cdot\frac{p_\theta(x_{0:T})}{p(x_{1:T} | x_0)} \partial x_{1:T} \\
                 &= log\ \mathbb{E}_{x_{1:T}\sim p(x_{1:T}|x_0)} [ \frac{p_\theta(x_{0:T})}{p(x_{1:T} | x_0)} ] 
             \end{align}$$
+            
             - (1): $p_\theta(x_0)$에 의한 정의
             - (3): $x_{1:T}$에 의한 편미분 수식을 만들기 위해 위치 바꿈
             - (4): $\mathbb{E}$으로 정리
             <br><br>
             - Jensen's inequality에 의해 random variable $Y$와 convex function $f$는 아래 부등식이 성립함
+
                 $$f(\mathbb{E}[Y]) \leq \mathbb{E}[f(Y)]$$
                 
-                $f$는 $log$, $Y$는 $\frac{p_\theta(x_{0:T})}{p(x_{1:T} | x_0)}$로 $log$ 함수는 concave하기에 위 부등식을 바꿔서 정리하면,
+                $f$는 $log$, $Y$는 $\frac{p_\theta(x_{0:T})}{p(x_{1:T} \vert x_0)}$로 $log$ 함수는 concave하기에 위 부등식을 바꿔서 정리하면,
                 
                 $$log\ p_\theta(x_0) \geq \mathbb{E}_{x_{1:T}\sim p(x_{1:T}|x_0)}\ [\ log\frac{p_\theta(x_{0:T})}{p(x_{1:T} | x_0)}\ ]\\
                 -log\ p_\theta(x_0) \leq \mathbb{E}_{x_{1:T}\sim p(x_{1:T}|x_0)}\ [\ log \frac{p(x_{1:T} | x_0)}{p_\theta(x_{0:T})}\ ]$$
