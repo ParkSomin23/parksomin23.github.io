@@ -1,5 +1,5 @@
 ---
-title: "Diffusion Models in Vision: A Survey (1)"
+title: "Diffusion Models in Vision: A Survey"
 date: 2023-12-07 15:00
 category: "논문-리뷰"
 tag: [Vison, Diffusion]
@@ -10,9 +10,8 @@ toc_sticky: true
 use_math: true
 ---
 
-<span style='background-color:#fff5b1'></span>
-> 논문: [Diffusion Models in Vision: A Survey]<br>
-> **계속 update 예정입니다!!!**
+> 논문: [Diffusion Models in Vision: A Survey](https://arxiv.org/abs/2209.04747v5)<br>
+> 앞에서의 diffusion 발전 과정만 정리하였습니다.
 
 # 1. Diffusion model 개요
 - deep generative model의 종류로 2개의 stage으로 구성됨
@@ -384,4 +383,10 @@ $\Rightarrow$ NCSNs은 학습과 sampling이 score function만 필요로 하는 
 
 - [Song et al.](https://openreview.net/pdf/ef0eadbe07115b0853e964f17aa09d811cd490f1.pdf)이 diffusion model의 latent space는 정의가 명확한 구조(well-defined structure)를 가지고 있으며, 이 공간에서 interpolations하면 이미지 공간에서 interpolation 된다고 설명함<br>
 즉, diffusion의 latent space에 대한 연구가 GAN보다 덜 되었으며 후속 연구들이 필요함을 의미함
-      
+
+# 4. 개인적인 정리
+<p align="center">
+    <img src="../assets/images/DiffusionVision-Survey/Diffusion_01.jpeg" width="80%">
+    <img src="../assets/images/DiffusionVision-Survey/Diffusion_02.jpeg" width="80%">
+    <img src="../assets/images/DiffusionVision-Survey/Diffusion_03.jpeg" width="80%">
+</p>
