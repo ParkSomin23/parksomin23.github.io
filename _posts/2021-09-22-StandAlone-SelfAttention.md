@@ -2,7 +2,7 @@
 title: "Stand-Alone Self-Attention in Vision Models"
 date: 2021-09-22 18:10
 category: "논문-리뷰"
-tag: [Image, Self-Attention]
+tag: [Vision, Self-Attention]
 published: true
 
 toc: true

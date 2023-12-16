@@ -2,7 +2,7 @@
 title: "Unpaired Motion Style Transfer from Video to Animation"
 date: 2021-05-20 18:10
 category: "논문-리뷰"
-tag: [StyleTransfer, Video]
+tag: [StyleTransfer, Video, Vision]
 published: true
 
 toc: true

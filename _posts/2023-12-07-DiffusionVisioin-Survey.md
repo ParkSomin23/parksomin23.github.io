@@ -2,7 +2,7 @@
 title: "Diffusion Models in Vision: A Survey"
 date: 2023-12-07 15:00
 category: "논문-리뷰"
-tag: [Vison, Diffusion]
+tag: [Vision, Diffusion]
 published: true
 
 toc: true
@@ -277,7 +277,7 @@ denoising diffusion probabilistic models
             $\lambda(\sigma_t)$: weighting function
 
             학습이 완료된 후, neural network $s_\theta(x_t, \sigma_t)$는 time step $t$에서 noisy input $x_t$에 대한 score $\nabla_{x_t} log\ p_{\sigma_t}(x_t)$에 대한 추측값을 return하게 됨<br>
-    - Inference 시에 anneled Langevin dynamics 사용
+    - Inference 시에 annealed Langevin dynamics 사용
         <p align="center">
         <img src="../assets/images/DiffusionVision-Survey/img_04.jpeg" width="60%">
         </p>

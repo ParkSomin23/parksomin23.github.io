@@ -2,7 +2,7 @@
 title: "Face Identity Disentanglement via Latent Space Mapping"
 date: 2021-05-22 18:10
 category: "논문-리뷰"
-tag: [GAN, Image, Disentanglement]
+tag: [GAN, Vision, Disentanglement]
 published: true
 
 toc: true
