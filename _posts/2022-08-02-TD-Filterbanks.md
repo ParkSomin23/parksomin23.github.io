@@ -3,7 +3,7 @@
 title: "Learning Filterbanks From Raw Speech For Phone Recognition"
 date: 2022-08-02 18:10
 category: "논문-리뷰"
-tag: [Audio, Wav2Vec, Filter]
+tag: [Audio, Wav2Vec, Filter, Gabor]
 published: true
 
 toc: true
@@ -58,7 +58,7 @@ use_math: true
     - $\varphi_n$ 를 normalize해서 $\psi_n$ 과 에너지가 같도록 만듦  
     <br/>
 
-- **\<Gabor 추가 설명>**
+- ### **\<Gabor 추가 설명>**
     - Gabor Filter는 scale, time, frequency, phase로 wave를 표현할 수 있음
     <p align="center">
     <img src="../assets/images/TD_Filter/gabor.png" width="100%">
