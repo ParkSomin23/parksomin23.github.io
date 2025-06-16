@@ -15,7 +15,7 @@
 minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
-locale                   : "en-US"
+locale                   : "ko-KR"
 title                    : "Keep On"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
@@ -104,7 +104,7 @@ analytics:
 author:
   name             : "Somin Park"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Machine Learning 개인적인 정리 노트. 틀린 부분 발견 시 아래 이메일로 연락주시면 감사하겠습니다."
+  bio              : "Machine Learning/AI 개인적인 정리 노트입니다. 잘못된 부분은 아래 이메일로 연락주시면 반영하도록 하겠습니다!"
   location         : "Republic of Korea"
   email            : "caqta0323@naver.com"
   links:
@@ -269,7 +269,7 @@ defaults:
       type: posts
     values:
       layout: single
-      author_profile: true
+      author_profile: false
       read_time: false
       comments: false
       share: true
