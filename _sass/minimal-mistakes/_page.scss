@@ -4,19 +4,14 @@
 
 #main {
   @include clearfix;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 6em;
+  margin-right: 6em;
   padding-left: 1em;
   padding-right: 1em;
   -webkit-animation: $intro-transition;
   animation: $intro-transition;
-  max-width: 100%;
   -webkit-animation-delay: 0.15s;
   animation-delay: 0.15s;
-
-  @include breakpoint($x-large) {
-    max-width: $max-width;
-  }
 }
 
 body {
@@ -50,8 +45,8 @@ body {
   .page__inner-wrap {
     float: left;
     margin-top: 1em;
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: 4em;
+    margin-right: 2em;
     width: 100%;
     clear: both;
 
