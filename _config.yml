@@ -41,8 +41,12 @@ comments:
     num_posts            : # 5 (default)
     colorscheme          : # "light" (default), "dark"
   utterances:
+    repo: "ParkSomin23/parksomin23.github.io"
     theme                : "github-light" # "github-light" (default), "github-dark"
     issue_term           :  "pathname" # "pathname" (default)
+    label: "comments"
+    theme: "github-light"
+    follow_site_theme: true
   giscus:
     repo_id              : # Shown during giscus setup at https://giscus.app
     category_name        : # Full text name of the category
@@ -104,7 +108,7 @@ analytics:
 author:
   name             : "Somin Park"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Machine Learning/AI 개인적인 정리 노트입니다. 잘못된 부분은 아래 이메일로 연락주시면 반영하도록 하겠습니다!"
+  bio              : "Machine Learning/AI 개인적인 정리 노트입니다. 잘못된 부분은 댓글 남겨주시면 반영하도록 하겠습니다!"
   location         : "Republic of Korea"
   email            : "caqta0323@naver.com"
   links:
