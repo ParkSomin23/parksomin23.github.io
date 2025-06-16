@@ -170,7 +170,16 @@
       </section>
     {% when "utterances" %}
       <h4 class="page__comments-title">{{ comments_label }}</h4>
-      <section id="utterances-comments"></section>
+      <section id="utterances-comments">
+        <script src="https://utteranc.es/client.js"
+                repo="ParkSomin23/parksomin23.github.io"
+                issue-term="pathname"
+                label="comments"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
+        </script>
+      </section>
     {% when "giscus" %}
       <h4 class="page__comments-title">{{ comments_label }}</h4>
       <section id="giscus-comments"></section>
@@ -179,11 +188,4 @@
   {% endcase %}
 </div>
 
-<script src="https://utteranc.es/client.js"
-        repo="ParkSomin23/parksomin23.github.io"
-        issue-term="pathname"
-        label="comments"
-        theme="github-light"
-        crossorigin="anonymous"
-        async>
-</script>
+
