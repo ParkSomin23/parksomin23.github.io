@@ -217,6 +217,7 @@ figure {
   align-items: flex-start;
   flex-wrap: wrap;
   margin: 2em 0;
+  text-align: center;
 
   img,
   iframe,
@@ -267,7 +268,7 @@ figure {
 figcaption {
   margin-bottom: 0.5em;
   color: $muted-text-color;
-  font-family: $caption-font-family;
+  // font-family: $caption-font-family;
   font-size: $type-size-6;
 
   a {
@@ -279,6 +280,7 @@ figcaption {
     }
   }
 }
+
 
 /* Fix IE9 SVG bug */
 
@@ -358,3 +360,37 @@ input[type="submit"],
   -webkit-transition: $global-transition;
   transition: $global-transition;
 }
+
+
+/* 내가 추가한 부분 */
+// .centered-figure {
+//   text-align: center;
+// }
+
+// .centered-figure img {
+//   display: inline-block;
+// }
+
+// .centered-figure .caption {
+//   display: inline-block;
+//   margin: 0 auto;
+//   text-align: center;
+// }
+
+.centered-figure {
+  display: block; 
+  text-align: center;
+}
+
+.centered-figure img {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+}
+
+.centered-figure figcaption {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
