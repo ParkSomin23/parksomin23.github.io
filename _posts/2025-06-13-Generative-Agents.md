@@ -9,7 +9,7 @@ toc: true
 toc_sticky: true
 use_math: true
 ---
-> [Generative Agents: Interactive Simulacra of Human Behavior](https://arxiv.org/abs/2304.03442)<br>
+> [Generative Agents: Interactive Simulacra of Human Behavior](https://arxiv.org/abs/2304.03442)
 > [[코드](https://github.com/joonspk-research/generative_agents)]
 
 
